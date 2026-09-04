@@ -1,0 +1,23 @@
+<h1>Cadastro</h1>
+
+<input [(ngModel)]="name" type="text" placeholder="Digite seu nome">
+
+<br>
+
+<input [(ngModel)]="email" type="text" placeholder="Digite seu email">
+
+<br>
+
+<input [(ngModel)]="password" type="password" placeholder="Digite sua senha">
+
+
+<br>
+<br>
+
+<button (click)="register()">Registrar</button>
+&nbsp;
+<button (click)="goToLogin.emit()">Já tenho uma conta</button>
+
+<br><br>
+
+<span><i>O email a ser cadastrado deve ser o email institucional da Fumec.</i></span>

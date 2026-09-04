@@ -1,11 +1,8 @@
-<h1>Login</h1>
+@if (!showRegister()) {
+  <app-login-form (goToRegister)="showRegister.set(true)"></app-login-form>
+}
 
-<input [(ngModel)]="email" type="text" placeholder="Digite seu email">
-<br>
-<input [(ngModel)]="password" type="password" placeholder="Digite sua senha" (keyup.enter)="login()">
+@if (showRegister()) {
+  <app-register-form (goToLogin)="showRegister.set(false)"></app-register-form>
+}
 
-<br>
-
-<button (click)="login()">Login</button>
-
-<p>{{message()}}</p>

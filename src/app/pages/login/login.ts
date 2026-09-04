@@ -1,37 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../core/services/auth.service';
-import { Router } from '@angular/router';
+import { LoginForm } from '../../components/login-form/login-form';
+import { RegisterForm } from '../../components/register-form/register-form';
 
 @Component({
-  imports: [FormsModule],
+  imports: [LoginForm, RegisterForm],
   selector: 'app-login',
   styleUrl: './login.css',
   templateUrl: './login.html',
 })
 export class Login {
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {}
-  email = signal('');
-  password = signal('');
-  message = signal(' ');
+  showRegister = signal(false);
 
-  login() {
-    this.authService.login(this.email(), this.password()).subscribe({
-      next: (data) => {
-        this.message.set('Login efetuado com sucesso!');
-
-        this.email.set('');
-        this.password.set('');
-
-        this.router.navigate(['/chat']);
-      },
-
-      error: (error) => {
-        this.message.set(error.error.message);
-      },
-    });
-  }
 }

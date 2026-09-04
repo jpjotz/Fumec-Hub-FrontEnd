@@ -1,0 +1,9 @@
+<h1>Olá, {{user()?.name}}</h1>
+
+<button (click)="logout()">Desconectar</button>
+
+<h2>Seus Chats:</h2>
+
+@for (chat of chats(); track chat.id) {
+  <app-chat-item [chat]="chat"></app-chat-item>
+}
