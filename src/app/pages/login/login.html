@@ -1,0 +1,11 @@
+<h1>Login</h1>
+
+<input [(ngModel)]="email" type="text" placeholder="Digite seu email">
+<br>
+<input [(ngModel)]="password" type="password" placeholder="Digite sua senha" (keyup.enter)="login()">
+
+<br>
+
+<button (click)="login()">Login</button>
+
+<p>{{message()}}</p>
