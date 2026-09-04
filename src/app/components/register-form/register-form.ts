@@ -15,18 +15,21 @@ export class RegisterForm {
   name = signal('');
   email = signal('');
   password = signal('');
+  message = signal('');
 
   goToLogin = output<void>();
 
   register() {
     this.authService.register(this.name(), this.email(), this.password()).subscribe({
       next: (data) => {
-        console.log(data);
-        this.router.navigate(['/chat'])
+        this.message.set('Usuário criado!')
+        setTimeout(() => {
+          this.router.navigate(['/chat']);
+        }, 2000);
       },
 
       error: (error) => {
-        console.log(error);
+        this.message.set(error.error.message || error.error);
       },
     });
   }
