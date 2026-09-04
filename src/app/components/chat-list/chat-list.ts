@@ -29,6 +29,7 @@ export class ChatList {
 
     this.authService.getMe().subscribe({
       next: (data: any) => {
+        console.log('USUARIO:', data)
         this.user.set(data);
       },
     });

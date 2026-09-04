@@ -15,7 +15,7 @@ export class AuthService {
   }
 
   register(nome: string, email: string, password: string) {
-    return this.http.post(this.apiUrl + 'users/register', {name: nome, email, password});
+    return this.http.post(this.apiUrl + 'users/register', {name: nome, email, password}, {withCredentials: true});
   }
 
   login(email: string, password: string) {
