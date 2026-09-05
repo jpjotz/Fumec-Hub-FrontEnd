@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { Component, output, signal } from '@angular/core';
 import { FriendshipService } from '../../core/services/friendship.service';
 
 @Component({
@@ -11,12 +11,12 @@ export class FriendRequests {
   constructor(private friendshipService: FriendshipService) {}
 
   close = output<void>();
-  requests: any[] = [];
+  requests = signal<any[]>([]);
 
   ngOnInit() {
     this.friendshipService.getRequests().subscribe({
-      next: (data) => {
-        this.requests = data;
+      next: (data: any) => {
+        this.requests.set(data.requests);
       },
     });
   }
@@ -24,7 +24,9 @@ export class FriendRequests {
   aceitar(friendshipId: string) {
     this.friendshipService.acceptFriendShip(friendshipId).subscribe({
       next: (data) => {
-        console.log(data);
+        this.requests.update(requests => {
+          return requests.filter(request => request.id !== friendshipId);
+        })
       },
 
       error: (error) => {

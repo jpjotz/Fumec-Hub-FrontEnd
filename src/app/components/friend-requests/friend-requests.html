@@ -1,13 +1,19 @@
-@if (requests.length === 0) {
+@if (requests().length === 0) {
   <p>Nenhuma solicitação encontrada</p>
 }
 
-@for (request of requests; track request.id) {
-  <p>{{request}}</p>
-  &nbsp;
-  <button (click)="aceitar(request.id)">Aceitar</button>
+@for (request of requests(); track request.id) {
+  <div style="display: flex; gap: 5px; margin-top: 15px;">
+    <p><b>Nome: </b>{{ request.sender.name }}</p>
+    <br>
+    <p><b>Id:</b> {{ request.sender.friendCode }}</p>
+
+    &nbsp;
+
+    <button (click)="aceitar(request.id)">Aceitar</button>
+  </div>
 }
 
-<br>
+<br />
 
 <button (click)="close.emit()">Fechar</button>
