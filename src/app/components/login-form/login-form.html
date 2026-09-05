@@ -1,21 +1,25 @@
+<img class="logo" src="logo.png" alt="">
+
 <h1>Login</h1>
 
-<input [(ngModel)]="email" type="text" placeholder="Digite seu email">
-<br>
-<input [(ngModel)]="password" type="password" placeholder="Digite sua senha" (keyup.enter)="login()">
+<form (submit)="$event.preventDefault(); login()">
+  <input [(ngModel)]="email" name="email" type="email" placeholder="Digite seu email" />
 
-<br>
-<br>
+  <input [(ngModel)]="password" name="password" type="password" placeholder="Digite sua senha" />
 
-<button (click)="login()" [disabled]="loading()">Login</button>
+  <button class="login" type="submit" [disabled]="loading()">Login</button>
 
-@if (loading()) {
-  <p>Efetuando Login...</p>
-}
+  @if (loading()) {
+    <p>Efetuando Login...</p>
+  }
 
-&nbsp;
-<button (click)="goToRegister.emit()">Criar uma conta</button>
+  <div class="register-account">
+    <p>Novo por aqui?</p>
 
-@if (message()) {
-  <p style="color: red;">{{ message() }}</p>
-}
+    <button class="register" type="button" (click)="goToRegister.emit()">Criar uma conta</button>
+  </div>
+
+  @if (message()) {
+    <p>{{ message() }}</p>
+  }
+</form>
