@@ -10,19 +10,25 @@ import { Router } from '@angular/router';
   templateUrl: './register-form.html',
 })
 export class RegisterForm {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   name = signal('');
   email = signal('');
   password = signal('');
   message = signal('');
 
+  showPassword = signal(false);
+  loading = signal(false);
+
   goToLogin = output<void>();
 
   register() {
     this.authService.register(this.name(), this.email(), this.password()).subscribe({
       next: (data) => {
-        this.message.set('Usuário criado!')
+        this.message.set('Usuário criado!');
         setTimeout(() => {
           this.router.navigate(['/chat']);
         }, 2000);

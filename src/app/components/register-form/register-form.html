@@ -1,25 +1,56 @@
+<img class="logo" src="logo.png" alt="" />
+
 <h1>Cadastro</h1>
 
-<input [(ngModel)]="name" type="text" placeholder="Digite seu nome">
+<form (submit)="$event.preventDefault(); register()">
 
-<br>
+  <input
+    [(ngModel)]="name"
+    name="name"
+    type="text"
+    placeholder="Digite seu nome"
+  />
 
-<input [(ngModel)]="email" type="text" placeholder="Digite seu email">
+  <input
+    [(ngModel)]="email"
+    name="email"
+    type="email"
+    placeholder="Digite seu email"
+  />
 
-<br>
+  <input
+    [(ngModel)]="password"
+    name="password"
+    [type]="showPassword() ? 'text' : 'password'"
+    placeholder="Digite sua senha"
+  />
 
-<input [(ngModel)]="password" type="password" placeholder="Digite sua senha">
+  <button class="register-button" type="submit" [disabled]="loading()">
+    @if (loading()) {
+      <span class="material-symbols-outlined spinner">
+        progress_activity
+      </span>
+    } @else {
+      Registrar
+    }
+  </button>
 
+  <button
+    class="login-account"
+    type="button"
+    (click)="goToLogin.emit()"
+  >
+    Já tenho uma conta
+  </button>
 
-<br>
-<br>
+  @if (message()) {
+    <p>{{ message() }}</p>
+  }
 
-<button (click)="register()">Registrar</button>
-&nbsp;
-<button (click)="goToLogin.emit()">Já tenho uma conta</button>
+  <span>
+    <i>
+      O email a ser cadastrado deve ser o email institucional da Fumec.
+    </i>
+  </span>
 
-<br><br>
-
-<p>{{message()}}</p>
-
-<span><i>O email a ser cadastrado deve ser o email institucional da Fumec.</i></span>
+</form>
