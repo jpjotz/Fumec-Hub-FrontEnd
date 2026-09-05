@@ -71,6 +71,10 @@ img {
   color: red;
 }
 
+.sucesso {
+  color: green;
+}
+
 @media (min-width: 1024px) {
   :host {
     padding: 0;

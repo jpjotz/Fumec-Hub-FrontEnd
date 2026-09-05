@@ -30,6 +30,7 @@ export class RegisterForm {
 
     this.authService.register(this.name(), this.email(), this.password()).subscribe({
       next: (data) => {
+        this.message.set("Usuário criado com sucesso!")
         this.loading.set(false);
 
         setTimeout(() => {

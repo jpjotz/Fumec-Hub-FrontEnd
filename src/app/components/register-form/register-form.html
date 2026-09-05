@@ -3,26 +3,13 @@
 <h1>Cadastro</h1>
 
 <span>
-  <i>
-    O email a ser cadastrado deve ser o email institucional da Fumec.
-  </i>
+  <i> O email a ser cadastrado deve ser o email institucional da Fumec. </i>
 </span>
 
 <form (submit)="$event.preventDefault(); register()">
+  <input [(ngModel)]="name" name="name" type="text" placeholder="Digite seu nome" />
 
-  <input
-    [(ngModel)]="name"
-    name="name"
-    type="text"
-    placeholder="Digite seu nome"
-  />
-
-  <input
-    [(ngModel)]="email"
-    name="email"
-    type="email"
-    placeholder="Digite seu email"
-  />
+  <input [(ngModel)]="email" name="email" type="email" placeholder="Digite seu email" />
 
   <input
     [(ngModel)]="password"
@@ -33,25 +20,20 @@
 
   <button class="register-button" type="submit" [disabled]="loading()">
     @if (loading()) {
-      <span class="material-symbols-outlined spinner">
-        progress_activity
-      </span>
+      <span class="material-symbols-outlined spinner"> progress_activity </span>
     } @else {
       Registrar
     }
   </button>
 
-  <button
-    class="login-account"
-    type="button"
-    (click)="goToLogin.emit()"
-  >
-    Já tenho uma conta
-  </button>
+  <button class="login-account" type="button" (click)="goToLogin.emit()">Já tenho uma conta</button>
 
   @if (message()) {
-    <p class="message">{{ message() }}</p>
+    @if (message().includes('criado')) {
+      <p class="sucesso">{{ message() }}</p>
+
+    } @else {
+      <p class="message">{{ message() }}</p>
+    }
   }
-
-
 </form>
