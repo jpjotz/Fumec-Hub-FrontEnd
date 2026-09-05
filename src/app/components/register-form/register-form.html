@@ -2,6 +2,12 @@
 
 <h1>Cadastro</h1>
 
+<span>
+  <i>
+    O email a ser cadastrado deve ser o email institucional da Fumec.
+  </i>
+</span>
+
 <form (submit)="$event.preventDefault(); register()">
 
   <input
@@ -44,13 +50,8 @@
   </button>
 
   @if (message()) {
-    <p>{{ message() }}</p>
+    <p class="message">{{ message() }}</p>
   }
 
-  <span>
-    <i>
-      O email a ser cadastrado deve ser o email institucional da Fumec.
-    </i>
-  </span>
 
 </form>
