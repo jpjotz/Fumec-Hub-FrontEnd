@@ -1,0 +1,13 @@
+@if (requests.length === 0) {
+  <p>Nenhuma solicitação encontrada</p>
+}
+
+@for (request of requests; track request.id) {
+  <p>{{request}}</p>
+  &nbsp;
+  <button (click)="aceitar(request.id)">Aceitar</button>
+}
+
+<br>
+
+<button (click)="close.emit()">Fechar</button>

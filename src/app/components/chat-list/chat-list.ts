@@ -3,9 +3,11 @@ import { ChatService } from '../../core/services/chat.service';
 import { ChatItem } from '../chat-item/chat-item';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { AddFriend } from '../add-friend/add-friend';
+import { FriendRequests } from '../friend-requests/friend-requests';
 
 @Component({
-  imports: [ChatItem],
+  imports: [ChatItem, AddFriend, FriendRequests],
   selector: 'app-chat-list',
   styleUrl: './chat-list.css',
   templateUrl: './chat-list.html',
@@ -19,6 +21,9 @@ export class ChatList {
 
   chats = signal<any[]>([]);
   user = signal<any>(null);
+
+  showAddFriend = signal(false);
+  viewRequests = signal(false);
 
   ngOnInit() {
     this.chatService.getChats().subscribe({

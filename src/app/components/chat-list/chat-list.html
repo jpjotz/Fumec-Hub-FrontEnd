@@ -1,13 +1,27 @@
 <h1>Olá, {{user()?.name}}</h1>
+<span>Seu código de amizade: {{user()?.friendCode}}</span>
+
+<br>
 
 <button (click)="logout()">Desconectar</button>
 
 <h2>Seus Amigos:</h2>
 
+<button (click)="showAddFriend.set(true)">Adicionar Amigo</button>
+&nbsp;
+
+@if (showAddFriend()) {
+  <app-add-friend (close)="showAddFriend.set(false)"></app-add-friend>
+}
+
+<button (click)="viewRequests.set(true)">Ver Solicitações</button>
+
+@if(viewRequests()) {
+  <app-friend-requests (close)="viewRequests.set(false)"></app-friend-requests>
+}
+
 @if(chats().length === 0) {
   <p>Tu nao tem amigo, amigao</p>
-  <img src="davy.jpg" alt="">
-  <img src="javascripto.jpeg" alt="">
 }
 
 @for (chat of chats(); track chat.id) {
