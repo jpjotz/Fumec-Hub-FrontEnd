@@ -20,6 +20,8 @@ export class LoginForm {
   message = signal('');
   loading = signal(false);
 
+  showPassword = signal(false);
+  
   goToRegister = output<void>();
 
   login() {

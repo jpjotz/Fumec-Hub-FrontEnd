@@ -75,6 +75,37 @@ img {
   animation: spin 1s linear infinite;
 }
 
+.password-field {
+  position: relative;
+  width: 250px;
+}
+
+.password-field input {
+  width: 100%;
+  padding-right: 55px;
+}
+
+.show-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  border: none;
+  background: transparent;
+  padding: 5px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.show-password .material-symbols-outlined {
+  font-size: 22px;
+}
+
 
 @media (min-width: 1024px) {
 
