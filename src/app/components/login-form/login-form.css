@@ -67,6 +67,11 @@ img {
   filter: invert(1) !important;
 }
 
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+
 @media (min-width: 1024px) {
 
   :host {
@@ -97,8 +102,18 @@ img {
   }
 }
 
+.message {
+  color: red;
+}
+
 @media (prefers-color-scheme: light) {
   .logo {
     filter: invert(1);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

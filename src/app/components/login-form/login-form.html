@@ -1,4 +1,4 @@
-<img class="logo" src="logo.png" alt="">
+<img class="logo" src="logo.png" alt="" />
 
 <h1>Login</h1>
 
@@ -7,11 +7,13 @@
 
   <input [(ngModel)]="password" name="password" type="password" placeholder="Digite sua senha" />
 
-  <button class="login" type="submit" [disabled]="loading()">Login</button>
-
-  @if (loading()) {
-    <p>Efetuando Login...</p>
-  }
+  <button class="login" type="submit" [disabled]="loading()">
+    @if (loading()) {
+      <span class="material-symbols-outlined spinner"> progress_activity </span>
+    } @else {
+      Login
+    }
+  </button>
 
   <div class="register-account">
     <p>Novo por aqui?</p>
@@ -20,6 +22,6 @@
   </div>
 
   @if (message()) {
-    <p>{{ message() }}</p>
+    <p class="message">{{ message() }}</p>
   }
 </form>
