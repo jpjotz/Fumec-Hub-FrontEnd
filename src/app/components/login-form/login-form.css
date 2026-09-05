@@ -28,6 +28,10 @@ input:focus {
   outline: none;
 }
 
+input:focus::placeholder {
+  color: rgb(0, 98, 255);
+}
+
 input,
 .login {
   width: 250px;
