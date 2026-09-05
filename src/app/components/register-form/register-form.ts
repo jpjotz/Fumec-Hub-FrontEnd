@@ -26,9 +26,13 @@ export class RegisterForm {
   goToLogin = output<void>();
 
   register() {
+    this.loading.set(true);
+
     this.authService.register(this.name(), this.email(), this.password()).subscribe({
       next: (data) => {
         this.message.set('Usuário criado!');
+        this.loading.set(false);
+
         setTimeout(() => {
           this.router.navigate(['/chat']);
         }, 2000);
@@ -36,6 +40,7 @@ export class RegisterForm {
 
       error: (error) => {
         this.message.set(error.error.message || error.error);
+        this.loading.set(false);
       },
     });
   }
