@@ -74,6 +74,7 @@ header button {
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none;
 }
 
 .back-button span {
@@ -88,6 +89,7 @@ header button {
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none;
 }
 
 .send-button span {
@@ -98,4 +100,5 @@ header button {
   color: gray;
   text-align: center;
   align-self: center;
+  user-select: none;
 }
