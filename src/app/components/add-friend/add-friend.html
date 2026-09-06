@@ -1,6 +1,24 @@
-<input class="add-input" [(ngModel)]="search" type="text" placeholder="Digite o código de amizade" (keydown.enter)="pesquisar()">
-<button class="add-button" (click)="pesquisar()">Adicionar</button>
+<input
+  class="add-input"
+  [(ngModel)]="search"
+  type="text"
+  placeholder="Digite o código de amizade"
+  (keydown.enter)="pesquisar()"
+/>
+<button class="add-button" (click)="pesquisar()">
+  @if (loading()) {
+    <span class="material-symbols-outlined spinner"> progress_activity </span>
+  } @else {
+    Adicionar
+  }
+</button>
 
-<p>{{message()}}</p>
+@if (message()) {
+  @if (message().includes('enviada')) {
+    <p class="message-success">{{ message() }}</p>
+  } @else {
+    <p class="message-error">{{ message() }}</p>
+  }
+}
 
 <button class="close-button" (click)="close.emit()">Fechar</button>

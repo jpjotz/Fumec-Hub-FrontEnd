@@ -12,12 +12,35 @@
   border-radius: 10px;
   color: white;
   border: none;
+  cursor: pointer;
 }
 
 .close-button {
+  display: block;
+  margin-top: 20px;
   color: red;
   background-color: rgb(255, 195, 195);
   padding: 10px;
   border: none;
   border-radius: 10px;
+  cursor: pointer;
+}
+
+.spinner {
+  font-size: 20px;
+  animation: spin 1s linear infinite;
+}
+
+.message-success {
+  color: green;
+}
+
+.message-error {
+  color: red;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

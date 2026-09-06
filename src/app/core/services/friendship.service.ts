@@ -9,7 +9,7 @@ export class FriendshipService {
 
   constructor(private http: HttpClient) {}
 
-  sendFriendRequest(friendCode: number) {
+  sendFriendRequest(friendCode: string) {
     return this.http.post(this.apiUrl + 'friends/new', { friendCode }, { withCredentials: true });
   }
 

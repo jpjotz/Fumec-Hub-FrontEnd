@@ -16,14 +16,19 @@ export class AddFriend {
   search = signal('');
   message = signal('');
 
+  loading = signal(false);
+
   pesquisar() {
-    this.friendshipService.sendFriendRequest(Number(this.search())).subscribe({
+    this.loading.set(true)
+    this.friendshipService.sendFriendRequest(this.search()).subscribe({
       next: (data) => {
-        this.message.set('Solicitação enviada!')
+        this.message.set('Solicitação enviada!');
+        this.loading.set(false)
       },
 
       error: (error) => {
         this.message.set(error.error.message || error.error);
+        this.loading.set(false)
       }
     })
   }
