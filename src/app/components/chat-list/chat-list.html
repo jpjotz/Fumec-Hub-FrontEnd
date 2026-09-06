@@ -1,29 +1,46 @@
-<h1>Olá, {{user()?.name}}</h1>
-<span>Seu código de amizade: {{user()?.friendCode}}</span>
+<div class="chat-list">
 
-<br>
+  <section class="user-info">
+    <h1>Olá, {{ user()?.name }}</h1>
+    <span>Seu código de amizade: {{ user()?.friendCode }}</span>
+  </section>
 
-<button (click)="logout()">Desconectar</button>
+  <section class="chat-actions">
+    <button (click)="showAddFriend.set(true)">
+      Adicionar Amigo
+    </button>
 
-<h2>Seus Amigos:</h2>
+    <button (click)="viewRequests.set(true)">
+      Ver Solicitações
+    </button>
 
-<button (click)="showAddFriend.set(true)">Adicionar Amigo</button>
-&nbsp;
+    <button (click)="logout()">
+      Desconectar
+    </button>
+  </section>
 
-@if (showAddFriend()) {
-  <app-add-friend (close)="showAddFriend.set(false)"></app-add-friend>
-}
+  @if (showAddFriend()) {
+    <app-add-friend
+      (close)="showAddFriend.set(false)">
+    </app-add-friend>
+  }
 
-<button (click)="viewRequests.set(true)">Ver Solicitações</button>
+  @if (viewRequests()) {
+    <app-friend-requests
+      (close)="viewRequests.set(false)">
+    </app-friend-requests>
+  }
 
-@if(viewRequests()) {
-  <app-friend-requests (close)="viewRequests.set(false)"></app-friend-requests>
-}
+  <section class="chats">
+    <h2>Conversas</h2>
 
-@if(chats().length === 0) {
-  <p>Tu nao tem amigo, amigao</p>
-}
+    @if (chats().length === 0) {
+      <p class="no-chats">Nenhuma conversa encontrada.</p>
+    }
 
-@for (chat of chats(); track chat.id) {
-  <app-chat-item [chat]="chat"></app-chat-item>
-}
+    @for (chat of chats(); track chat.id) {
+      <app-chat-item (openChat)="openChat($event)" [chat]="chat"></app-chat-item>
+    }
+  </section>
+
+</div>

@@ -1,0 +1,21 @@
+<div class="chat-window">
+  <header>
+    <button class="back-button" (click)="goBack()">
+      <span class="material-symbols-outlined"> arrow_back </span>
+    </button>
+    <h2>{{ chat().otherUser.name }}</h2>
+  </header>
+
+  <main class="messages">
+    <p class="received">Oi tudo bem</p>
+    <p class="sent">Opa tudo sim</p>
+    <p class="received">voce viu a aula de hj</p>
+  </main>
+
+  <footer class="message-input">
+    <input type="text" placeholder="Digite uma mensagem..." />
+    <button class="send-button">
+      <span class="material-symbols-outlined"> send </span>
+    </button>
+  </footer>
+</div>

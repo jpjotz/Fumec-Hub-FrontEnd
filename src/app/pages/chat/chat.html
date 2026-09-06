@@ -1,1 +1,7 @@
-<app-chat-list></app-chat-list>
+<div class="chat-container">
+  @if (selectedChat()) {
+    <app-chat-window (back)="selectedChat.set(null)" [chat]="selectedChat()"></app-chat-window>
+  } @else {
+    <app-chat-list (openChatSelected)="selectedChat.set($event)"></app-chat-list>
+  }
+</div>

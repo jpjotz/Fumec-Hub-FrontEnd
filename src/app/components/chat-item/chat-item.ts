@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   imports: [],
@@ -8,4 +8,10 @@ import { Component, input } from '@angular/core';
 })
 export class ChatItem {
   chat = input<any>();
+
+  openChat = output<any>();
+
+  selectChat() {
+    this.openChat.emit(this.chat());
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, output } from '@angular/core';
 import { ChatService } from '../../core/services/chat.service';
 import { ChatItem } from '../chat-item/chat-item';
 import { AuthService } from '../../core/services/auth.service';
@@ -24,6 +24,12 @@ export class ChatList {
 
   showAddFriend = signal(false);
   viewRequests = signal(false);
+
+  openChatSelected = output<any>();
+
+  openChat(chat: any) {
+    this.openChatSelected.emit(chat)
+  }
 
   ngOnInit() {
     this.chatService.getChats().subscribe({

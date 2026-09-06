@@ -22,6 +22,10 @@ export class AuthService {
     return this.http.post(this.apiUrl + 'auth/login', {email, password}, {withCredentials: true});
   }
 
+  refresh() {
+    return this.http.post(this.apiUrl + 'auth/refresh', {}, {withCredentials: true})
+  }
+
   logout() {
     return this.http.post(this.apiUrl + 'auth/logout', {}, {withCredentials: true})
   }

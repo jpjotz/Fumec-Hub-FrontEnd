@@ -1,6 +1,22 @@
 .chat-item {
-  margin-top: 15px;
-  border: 1px solid black;
-  padding: 5px;
-  max-width: fit-content;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px 8px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.chat-item img {
+  width: 45px;
+  height: 45px;
+}
+
+.chat-item p {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 500;
 }

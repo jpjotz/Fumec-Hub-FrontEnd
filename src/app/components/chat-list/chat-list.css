@@ -1,0 +1,38 @@
+.chat-list {
+  padding: 20px;
+}
+
+.user-info {
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
+.user-info h1 {
+  margin: 0 0 5px;
+}
+
+.user-info span {
+  color: gray;
+}
+
+.chat-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.chat-actions button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.chats h2 {
+  margin-bottom: 15px;
+}
+
+.no-chats {
+  color: gray;
+  text-align: center;
+}

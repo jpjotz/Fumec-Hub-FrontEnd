@@ -106,6 +106,13 @@ img {
   font-size: 22px;
 }
 
+.message {
+  color: red;
+}
+
+.message-sucesso {
+  color: green;
+}
 
 @media (min-width: 1024px) {
 
@@ -137,9 +144,6 @@ img {
   }
 }
 
-.message {
-  color: red;
-}
 
 @media (prefers-color-scheme: light) {
   .logo {
