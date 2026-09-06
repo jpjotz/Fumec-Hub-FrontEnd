@@ -23,12 +23,12 @@ input {
 }
 
 input:focus {
-  border: 1px solid rgb(0, 98, 255);
+  border: 1px solid var(--primary-color);
   outline: none;
 }
 
 input:focus::placeholder {
-  color: rgb(0, 98, 255);
+  color: var(--primary-color);
 }
 
 input,
@@ -38,7 +38,7 @@ input,
 }
 
 .register-button {
-  background-color: rgb(0, 98, 255);
+  background-color: var(--primary-color);
   padding: 20px;
   color: white;
   border-radius: 10px;
@@ -50,7 +50,7 @@ input,
   border: none;
   font-size: 15px;
   background-color: transparent;
-  color: rgb(0, 98, 255);
+  color: var(--primary-color);
   font-weight: bold;
 }
 

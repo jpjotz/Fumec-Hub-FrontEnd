@@ -7,14 +7,25 @@
   </header>
 
   <main class="messages">
-    <p class="received">Oi tudo bem</p>
-    <p class="sent">Opa tudo sim</p>
-    <p class="received">voce viu a aula de hj</p>
+    @if (messages().length === 0) {
+      <p class="no-messages">Nenhuma mensagem enviada.</p>
+    } @else {
+      @for (message of messages(); track $index) {
+        <p [class]="message.type">
+          {{ message.text }}
+        </p>
+      }
+    }
   </main>
 
   <footer class="message-input">
-    <input type="text" placeholder="Digite uma mensagem..." />
-    <button class="send-button">
+    <input
+      (keydown.enter)="sendMessage()"
+      [(ngModel)]="message"
+      type="text"
+      placeholder="Digite uma mensagem..."
+    />
+    <button class="send-button" (click)="sendMessage()">
       <span class="material-symbols-outlined"> send </span>
     </button>
   </footer>

@@ -1,8 +1,6 @@
-<br><br>
-
-<input [(ngModel)]="search" type="text" placeholder="Digite o código de amizade" (keydown.enter)="pesquisar()">
-<button (click)="pesquisar()">Adicionar</button>
+<input class="add-input" [(ngModel)]="search" type="text" placeholder="Digite o código de amizade" (keydown.enter)="pesquisar()">
+<button class="add-button" (click)="pesquisar()">Adicionar</button>
 
 <p>{{message()}}</p>
 
-<button (click)="close.emit()">Fechar</button>
+<button class="close-button" (click)="close.emit()">Fechar</button>

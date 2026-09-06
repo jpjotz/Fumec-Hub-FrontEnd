@@ -13,11 +13,11 @@ export class AddFriend {
 
   close = output<void>();
 
-  search = signal<number>(0);
+  search = signal('');
   message = signal('');
 
   pesquisar() {
-    this.friendshipService.sendFriendRequest(this.search()).subscribe({
+    this.friendshipService.sendFriendRequest(Number(this.search())).subscribe({
       next: (data) => {
         this.message.set('Solicitação enviada!')
       },

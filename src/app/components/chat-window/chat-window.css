@@ -93,3 +93,9 @@ header button {
 .send-button span {
   font-size: 30px;
 }
+
+.no-messages {
+  color: gray;
+  text-align: center;
+  align-self: center;
+}

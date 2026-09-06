@@ -1,0 +1,7 @@
+.close-button {
+  color: red;
+  background-color: rgb(255, 195, 195);
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+}
