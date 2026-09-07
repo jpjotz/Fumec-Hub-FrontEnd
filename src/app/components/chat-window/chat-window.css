@@ -75,6 +75,7 @@ header button {
   align-items: center;
   justify-content: center;
   user-select: none;
+  cursor: pointer;
 }
 
 .back-button span {

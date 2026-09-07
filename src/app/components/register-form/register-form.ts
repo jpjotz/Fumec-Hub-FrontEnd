@@ -26,16 +26,23 @@ export class RegisterForm {
   goToLogin = output<void>();
 
   register() {
+    if (this.email()) {
+      if (!this.email().endsWith('@fumec.edu.br')) {
+        this.message.set('Use um e-mail institucional @fumec.edu.br');
+        return;
+      }
+    }
+
     this.loading.set(true);
 
     this.authService.register(this.name(), this.email(), this.password()).subscribe({
       next: (data) => {
-        this.message.set("Usuário criado com sucesso!")
+        this.message.set('Usuário criado com sucesso!');
         this.loading.set(false);
 
         setTimeout(() => {
           this.router.navigate(['/chat']);
-        }, 2000);
+        }, 1000);
       },
 
       error: (error) => {
