@@ -1,7 +1,6 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, output, signal, effect } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ChatService } from '../../core/services/chat.service';
-import { AuthService } from '../../core/services/auth.service';
+import { WebSocketService } from '../../core/services/websocket.service';
 
 @Component({
   imports: [FormsModule],
@@ -10,16 +9,29 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './chat-window.html',
 })
 export class ChatWindow {
-  constructor(
-    private chatService: ChatService,
-    private authService: AuthService,
-  ) {}
+  constructor(private webSocketService: WebSocketService) {
+    effect(() => {
+      const messages = this.webSocketService.messages();
+      const user = this.user();
+
+      if (!user) {
+        return;
+      }
+
+      this.messages.set(
+        messages.map((message: any) => ({
+          text: message.content,
+          type: message.senderId === user.id ? 'sent' : 'received',
+        })),
+      );
+    });
+  }
 
   chat = input<any>();
 
   back = output<void>();
 
-  user = signal<any>(null);
+  user = input<any>();
 
   messages = signal<any[]>([]);
 
@@ -34,31 +46,12 @@ export class ChatWindow {
       return;
     }
 
-    this.chatService.createMessage(this.chat().id, this.message()).subscribe({
-      next: (message: any) => {
-        this.messages.update((messages) => [...messages, { text: message.content, type: 'sent' }]);
-        this.message.set('');
-      },
-    });
+    this.webSocketService.sendMessage(this.chat().id, this.message());
+
+    this.message.set('');
   }
 
   ngOnInit() {
-    this.authService.getMe().subscribe({
-      next: (user: any) => {
-        this.user.set(user);
-
-        this.chatService.getMessages(this.chat().id).subscribe({
-          next: (messages: any) => {
-
-            this.messages.set(
-              messages.map((message: any) => ({
-                text: message.content,
-                type: message.senderId === this.user().id ? 'sent' : 'received',
-              })),
-            );
-          },
-        });
-      },
-    });
+    this.webSocketService.connect(this.chat().id);
   }
 }

@@ -2,6 +2,10 @@
   padding: 20px;
 }
 
+.chat-list-hidden {
+  display: none;
+}
+
 .user-info {
   margin-top: 15px;
   margin-bottom: 20px;

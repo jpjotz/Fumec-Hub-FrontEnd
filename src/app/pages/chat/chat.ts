@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
-import { ChatService } from '../../core/services/chat.service';
 import { ChatList } from '../../components/chat-list/chat-list';
 import { ChatWindow } from '../../components/chat-window/chat-window';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   imports: [ChatList, ChatWindow],
@@ -10,7 +10,14 @@ import { ChatWindow } from '../../components/chat-window/chat-window';
   templateUrl: './chat.html',
 })
 export class Chat {
-
   selectedChat = signal<any>(null);
+  user = signal<any>(null)
+
+  constructor(private authService: AuthService) {
+    this.user = this.authService.user;
+
+  }
+
+
 
 }

@@ -1,10 +1,10 @@
-import { Component, signal, output } from '@angular/core';
+import { Component, signal, output, input } from '@angular/core';
 import { ChatService } from '../../core/services/chat.service';
 import { ChatItem } from '../chat-item/chat-item';
-import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { AddFriend } from '../add-friend/add-friend';
 import { FriendRequests } from '../friend-requests/friend-requests';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   imports: [ChatItem, AddFriend, FriendRequests],
@@ -20,7 +20,7 @@ export class ChatList {
   ) {}
 
   chats = signal<any[]>([]);
-  user = signal<any>(null);
+  user = input<any>();
 
   showAddFriend = signal(false);
   viewRequests = signal(false);
@@ -38,11 +38,6 @@ export class ChatList {
       },
     });
 
-    this.authService.getMe().subscribe({
-      next: (data: any) => {
-        this.user.set(data);
-      },
-    });
   }
 
   logout() {

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,14 @@ export class AuthService {
 
   private apiUrl = 'https://fumec-hub-backend.onrender.com/';
 
+  user = signal<any>(null);
+
   getMe() {
-    return this.http.get(this.apiUrl + 'users/me', {withCredentials: true});
+    return this.http.get(this.apiUrl + 'users/me', {withCredentials: true}).pipe(
+      tap((user) => {
+        this.user.set(user);
+      })
+    );
   }
 
   register(nome: string, email: string, password: string) {
