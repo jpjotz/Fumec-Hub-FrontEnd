@@ -1,4 +1,4 @@
-import { Component, input, output, signal, effect } from '@angular/core';
+import { Component, input, output, signal, effect, viewChild, ElementRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { WebSocketService } from '../../core/services/websocket.service';
 
@@ -24,8 +24,18 @@ export class ChatWindow {
           type: message.senderId === user.id ? 'sent' : 'received',
         })),
       );
+
+      setTimeout(() => {
+        const container = this.messagesContainer();
+
+        if(container) {
+          container.nativeElement.scrollTop = container.nativeElement.scrollHeight;
+        }
+      })
     });
   }
+
+  messagesContainer = viewChild<ElementRef>('messagesContainer');
 
   chat = input<any>();
 

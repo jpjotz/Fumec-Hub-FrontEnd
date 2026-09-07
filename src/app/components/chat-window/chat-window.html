@@ -6,7 +6,7 @@
     <h2>{{ chat().otherUser.name }}</h2>
   </header>
 
-  <main class="messages">
+  <main #messagesContainer class="messages">
     @if (messages().length === 0) {
       <p class="no-messages">Nenhuma mensagem enviada.</p>
     } @else {
