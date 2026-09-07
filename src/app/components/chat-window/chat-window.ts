@@ -59,6 +59,8 @@ export class ChatWindow {
     this.webSocketService.sendMessage(this.chat().id, this.message());
 
     this.message.set('');
+
+    (event?.target as HTMLInputElement)?.blur();
   }
 
   ngOnInit() {
