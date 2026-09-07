@@ -1,34 +1,27 @@
 <div class="chat-list">
-
   <section class="user-info">
     <h1>Olá, {{ user()?.name }}</h1>
     <span>Seu código de amizade: {{ user()?.friendCode }}</span>
   </section>
 
   <section class="chat-actions">
-    <button (click)="showAddFriend.set(true)">
-      Adicionar Amigo
+    <button class="add-button" (click)="showAddFriend.update(value => !value)">
+      <span class="material-symbols-outlined"> person_add </span>
     </button>
 
-    <button (click)="viewRequests.set(true)">
-      Ver Solicitações
-    </button>
+    <button class="requests-button" (click)="viewRequests.update(value => !value)">Ver Solicitações</button>
 
-    <button (click)="logout()">
-      Desconectar
+    <button class="logout-button" (click)="logout()">
+      <span class="material-symbols-outlined"> logout </span>
     </button>
   </section>
 
   @if (showAddFriend()) {
-    <app-add-friend
-      (close)="showAddFriend.set(false)">
-    </app-add-friend>
+    <app-add-friend (close)="showAddFriend.set(false)"> </app-add-friend>
   }
 
   @if (viewRequests()) {
-    <app-friend-requests
-      (close)="viewRequests.set(false)">
-    </app-friend-requests>
+    <app-friend-requests (close)="viewRequests.set(false)"> </app-friend-requests>
   }
 
   <section class="chats">
@@ -42,5 +35,4 @@
       <app-chat-item (openChat)="openChat($event)" [chat]="chat"></app-chat-item>
     }
   </section>
-
 </div>

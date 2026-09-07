@@ -1,4 +1,4 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FriendshipService } from '../../core/services/friendship.service';
 
@@ -10,8 +10,6 @@ import { FriendshipService } from '../../core/services/friendship.service';
 })
 export class AddFriend {
   constructor(private friendshipService: FriendshipService) {}
-
-  close = output<void>();
 
   search = signal('');
   message = signal('');

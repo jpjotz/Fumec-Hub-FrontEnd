@@ -40,3 +40,26 @@
   color: gray;
   text-align: center;
 }
+
+.logout-button {
+  background-color: rgb(255, 206, 206);
+  color: red;
+}
+
+.add-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background-color: rgb(139, 245, 139);
+  color: green;
+  overflow: hidden;
+  transition: width 0.2s ease;
+}
+
+.requests-button {
+  background-color: rgb(255, 245, 191);
+  color: rgb(255, 111, 0);
+}
+

@@ -1,4 +1,4 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FriendshipService } from '../../core/services/friendship.service';
 
 @Component({
@@ -9,8 +9,6 @@ import { FriendshipService } from '../../core/services/friendship.service';
 })
 export class FriendRequests {
   constructor(private friendshipService: FriendshipService) {}
-
-  close = output<void>();
   requests = signal<any[]>([]);
 
   ngOnInit() {
