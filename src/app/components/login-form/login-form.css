@@ -45,6 +45,7 @@ input,
   border-radius: 10px;
   border: none;
   font-weight: bold;
+  font-size: 15px;
 }
 
 .register {
@@ -72,6 +73,7 @@ img {
 }
 
 .spinner {
+  font-size: 15px;
   animation: spin 1s linear infinite;
 }
 
@@ -112,6 +114,11 @@ img {
 
 .message-sucesso {
   color: green;
+}
+
+button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
 }
 
 @media (min-width: 1024px) {

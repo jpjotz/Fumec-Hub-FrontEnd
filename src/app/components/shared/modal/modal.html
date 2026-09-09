@@ -1,0 +1,12 @@
+<div class="modal">
+  <div class="modal-content">
+    <header class="modal-header">
+      <h2>{{title()}}</h2>
+      <button class="close-button" (click)="close.emit()">
+        <span class="material-symbols-outlined"> close </span>
+      </button>
+    </header>
+
+    <ng-content></ng-content>
+  </div>
+</div>

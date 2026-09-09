@@ -5,23 +5,34 @@
   </section>
 
   <section class="chat-actions">
-    <button class="add-button" (click)="showAddFriend.update(value => !value)">
+    <button class="add-button" (click)="showFriends.set(true)">
       <span class="material-symbols-outlined"> person_add </span>
     </button>
-
-    <button class="requests-button" (click)="viewRequests.update(value => !value)">Ver Solicitações</button>
 
     <button class="logout-button" (click)="logout()">
       <span class="material-symbols-outlined"> logout </span>
     </button>
   </section>
 
-  @if (showAddFriend()) {
-    <app-add-friend (close)="showAddFriend.set(false)"> </app-add-friend>
-  }
+  @if (showFriends()) {
+    <app-modal title="Amizades" (close)="showFriends.set(false)">
+      <nav class="friends-tabs">
+        <span [class.active]="friendsView() === 'add'" (click)="friendsView.set('add')"
+          >Adicionar</span
+        >
+        <span [class.active]="friendsView() === 'requests'" (click)="friendsView.set('requests')"
+          >Pedidos</span
+        >
+      </nav>
 
-  @if (viewRequests()) {
-    <app-friend-requests (close)="viewRequests.set(false)"> </app-friend-requests>
+      @if (friendsView() === 'add') {
+        <app-add-friend></app-add-friend>
+      }
+
+      @if (friendsView() === 'requests') {
+        <app-friend-requests></app-friend-requests>
+      }
+    </app-modal>
   }
 
   <section class="chats">

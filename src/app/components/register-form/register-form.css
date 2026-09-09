@@ -38,6 +38,7 @@ input,
 }
 
 .register-button {
+  font-size: 15px;
   background-color: var(--primary-color);
   padding: 20px;
   color: white;
@@ -64,6 +65,7 @@ img {
 }
 
 .spinner {
+  font-size: 15px;
   animation: spin 1s linear infinite;
 }
 
@@ -73,6 +75,10 @@ img {
 
 .sucesso {
   color: green;
+}
+
+.reminder {
+  text-align: center;
 }
 
 @media (min-width: 1024px) {

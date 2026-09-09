@@ -4,11 +4,12 @@ import { ChatItem } from '../chat-item/chat-item';
 import { Router } from '@angular/router';
 import { AddFriend } from '../add-friend/add-friend';
 import { FriendRequests } from '../friend-requests/friend-requests';
+import { Modal } from '../shared/modal/modal';
 import { AuthService } from '../../core/services/auth.service';
 import { WebSocketService } from '../../core/services/websocket.service';
 
 @Component({
-  imports: [ChatItem, AddFriend, FriendRequests],
+  imports: [ChatItem, AddFriend, FriendRequests, Modal],
   selector: 'app-chat-list',
   styleUrl: './chat-list.css',
   templateUrl: './chat-list.html',
@@ -24,8 +25,8 @@ export class ChatList {
   chats = signal<any[]>([]);
   user = input<any>();
 
-  showAddFriend = signal(false);
-  viewRequests = signal(false);
+  friendsView = signal('add');
+  showFriends = signal(false);
 
   openChatSelected = output<any>();
 
