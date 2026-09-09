@@ -7,8 +7,9 @@ export class WebSocketService {
   private socket!: WebSocket;
 
   messages = signal<any[]>([]);
+  notifications = signal<any[]>([]);
 
-  connect(chatId: string) {
+  connect(chatId?: string) {
     this.messages.set([]);
 
     if (!this.socket || this.socket.readyState !== WebSocket.OPEN) {
@@ -17,7 +18,9 @@ export class WebSocketService {
       this.socket.onopen = () => {
         console.log('WebSocket conectado!');
 
-        this.joinChat(chatId);
+        if (chatId) {
+          this.joinChat(chatId);
+        }
       };
 
       this.socket.onclose = () => {
@@ -39,19 +42,29 @@ export class WebSocketService {
         if (data.event === 'newMessage') {
           this.messages.update((messages) => [...messages, data]);
         }
+
+        if (data.event === 'newMessageNotification') {
+          this.notifications.update((notifications) => [...notifications, data]);
+        }
       };
     } else {
-      this.joinChat(chatId);
+      if (chatId) {
+        this.joinChat(chatId);
+      }
     }
   }
 
-  private joinChat(chatId: string) {
+  joinChat(chatId: string) {
     this.socket.send(
       JSON.stringify({
         event: 'joinChat',
         chatId,
       }),
     );
+  }
+
+  clearNotifications(chatId: string) {
+    this.notifications.update((notifications) => notifications.filter((n) => n.chatId !== chatId));
   }
 
   sendMessage(chatId: string, content: string) {

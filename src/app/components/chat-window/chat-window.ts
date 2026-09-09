@@ -47,6 +47,8 @@ export class ChatWindow {
 
   message = signal('');
 
+  messageInput = viewChild<ElementRef>('messageInput');
+
   goBack() {
     this.back.emit();
   }
@@ -60,7 +62,8 @@ export class ChatWindow {
 
     this.message.set('');
 
-    (event?.target as HTMLInputElement)?.blur();
+    // (event?.target as HTMLInputElement)?.blur();
+    // this.messageInput()?.nativeElement.blur()
   }
 
   ngOnInit() {

@@ -9,6 +9,7 @@
   gap: 10px;
   cursor: pointer;
   user-select: none;
+  justify-content: space-between;
 }
 
 .chat-item img {
@@ -16,8 +17,28 @@
   height: 45px;
 }
 
+.chat-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px
+}
+
 .chat-item p {
   margin: 0;
   font-size: 17px;
   font-weight: 500;
+}
+
+.notification {
+  background-color: var(--primary-color);
+  color: white;
+  height: 25px;
+  width: 25px;
+  font-size: 16px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

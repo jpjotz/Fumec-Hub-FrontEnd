@@ -20,6 +20,7 @@
 
   <footer class="message-input">
     <input
+      #messageInput
       (keydown.enter)="sendMessage()"
       [(ngModel)]="message"
       type="text"

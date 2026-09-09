@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AddFriend } from '../add-friend/add-friend';
 import { FriendRequests } from '../friend-requests/friend-requests';
 import { AuthService } from '../../core/services/auth.service';
+import { WebSocketService } from '../../core/services/websocket.service';
 
 @Component({
   imports: [ChatItem, AddFriend, FriendRequests],
@@ -16,6 +17,7 @@ export class ChatList {
   constructor(
     private chatService: ChatService,
     private authService: AuthService,
+    private webSocketService: WebSocketService,
     private router: Router,
   ) {}
 
@@ -32,6 +34,9 @@ export class ChatList {
   }
 
   ngOnInit() {
+
+    this.webSocketService.connect();
+
     this.chatService.getChats().subscribe({
       next: (data: any) => {
         this.chats.set(data.chats);

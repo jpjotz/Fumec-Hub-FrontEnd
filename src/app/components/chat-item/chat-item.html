@@ -1,4 +1,12 @@
 <div class="chat-item" (click)="selectChat()">
-  <img src="avatar.png" alt="">
-  <p>{{chat().otherUser.name}}</p>
+  <div class="chat-info">
+    <img src="avatar.png" alt="" />
+    <p>{{ chat().otherUser.name }}</p>
+  </div>
+
+  @if (notifications().filter((n) => n.chatId === chat().id).length > 0) {
+    <span class="notification">
+      {{ notifications().filter((n) => n.chatId === chat().id).length }}
+    </span>
+  }
 </div>
