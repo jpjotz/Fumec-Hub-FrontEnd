@@ -51,6 +51,7 @@ export class ChatWindow {
 
   goBack() {
     this.back.emit();
+    this.webSocketService.leaveChat();
   }
 
   sendMessage() {
@@ -62,8 +63,6 @@ export class ChatWindow {
 
     this.message.set('');
 
-    // (event?.target as HTMLInputElement)?.blur();
-    // this.messageInput()?.nativeElement.blur()
   }
 
   ngOnInit() {

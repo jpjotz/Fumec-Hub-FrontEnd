@@ -76,4 +76,12 @@ export class WebSocketService {
       }),
     );
   }
+
+  leaveChat() {
+    this.socket.send(
+      JSON.stringify({
+        event: 'leaveChat'
+      })
+    )
+  }
 }
