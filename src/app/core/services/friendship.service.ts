@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class FriendshipService {
-  private apiUrl = 'https://fumec-hub-backend.onrender.com/';
+  private apiUrl = '/api/';
 
   constructor(private http: HttpClient) {}
 

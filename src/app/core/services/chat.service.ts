@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 export class ChatService {
   constructor (private http: HttpClient) {}
 
-  private apiUrl = 'https://fumec-hub-backend.onrender.com/';
+  private apiUrl = '/api/';
 
   getChats() {
     return this.http.get(this.apiUrl + 'chats', {withCredentials: true});
