@@ -57,6 +57,7 @@ header button {
 
 .message-input input {
   flex: 1;
+  font-size: 16px;
   padding: 12px;
   border-radius: 10px;
   border: 2px solid #ddd;
