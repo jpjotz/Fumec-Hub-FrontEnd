@@ -41,7 +41,7 @@ export class RegisterForm {
         this.loading.set(false);
 
         setTimeout(() => {
-          this.router.navigate(['/chat']);
+          this.router.navigate(['/']);
         }, 1000);
       },
 

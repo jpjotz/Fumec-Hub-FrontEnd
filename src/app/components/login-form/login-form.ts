@@ -21,7 +21,7 @@ export class LoginForm {
   loading = signal(false);
 
   showPassword = signal(false);
-  
+
   goToRegister = output<void>();
 
   login() {
@@ -40,7 +40,7 @@ export class LoginForm {
         this.password.set('');
         this.loading.set(false);
 
-        this.router.navigate(['/chat']);
+        this.router.navigate(['/']);
       },
 
       error: (error) => {
