@@ -49,7 +49,7 @@ export class ChatList {
   logout() {
     this.authService.logout().subscribe({
       next: () => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
       },
     });
   }
