@@ -175,7 +175,7 @@ O sistema utiliza:
 
 ## Back-end
 
-- Hospedado no Render. Acesso o repositório em: https://github.com/jpjotz/Fumec-Hub-BackEnd
+- Hospedado no Render. Acesse o repositório em: https://github.com/jpjotz/Fumec-Hub-BackEnd
 
 ## Banco de dados
 
