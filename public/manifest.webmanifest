@@ -1,6 +1,6 @@
 {
-  "name": "FumecHub-FrontEnd",
-  "short_name": "FumecHub-FrontEnd",
+  "name": "Fumec Hub",
+  "short_name": "Fumec Hub",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
