@@ -11,6 +11,7 @@ export class WebSocketService {
   messages = signal<any[]>([]);
   notifications = signal<any[]>([]);
   friendRequestReceived = signal(0);
+  newChats = signal<any[]>([]);
 
   connect(chatId?: string) {
     this.messages.set([]);
@@ -61,6 +62,10 @@ export class WebSocketService {
         if(data.event === 'friendRequest') {
           this.notifications.update((notifications) => [...notifications, data]);
           this.friendRequestReceived.update((count) => count + 1);
+        }
+
+        if(data.event === 'newChat') {
+          this.newChats.update((chats) => [...chats, data.chat]);
         }
       };
     } else if (this.socket.readyState === WebSocket.OPEN && chatId) {

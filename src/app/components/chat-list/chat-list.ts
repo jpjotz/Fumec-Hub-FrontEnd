@@ -31,6 +31,15 @@ export class ChatList {
         this.webSocketService.friendRequestReceived.set(0);
       }
     });
+
+    effect(() => {
+      const newChats = this.webSocketService.newChats();
+
+      if(newChats.length > 0) {
+        this.chats.update((chats) => [...chats, ...newChats]);
+        this.webSocketService.newChats.set([]);
+      }
+    })
   }
 
   chats = signal<any[]>([]);

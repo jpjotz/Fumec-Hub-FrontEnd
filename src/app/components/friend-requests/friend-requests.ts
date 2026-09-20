@@ -26,6 +26,8 @@ export class FriendRequests {
         this.requests.update((requests) => {
           return requests.filter((request) => request.id !== friendshipId);
         });
+
+        this.requestRemoved.emit();
       },
 
       error: (error) => {
