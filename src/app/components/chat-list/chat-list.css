@@ -78,3 +78,41 @@
   border-bottom: 1px solid var(--primary-color);
   border-radius: 5px;
 }
+
+.requestCount {
+  background-color: blue;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  font-size: 12px;
+}
+
+.add-button-container {
+  position: relative;
+  display: flex;
+}
+
+.request-badge {
+  position: absolute;
+  top: -5px;
+  right: -2px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 13px;
+  height: 13px;
+
+  background-color: green;
+  color: white;
+  border-radius: 50%;
+
+  padding: 3px;
+
+  font-size: 15px;
+}

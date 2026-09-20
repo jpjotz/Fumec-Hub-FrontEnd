@@ -1,5 +1,5 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { AuthService } from './auth.service'; // Ajuste o caminho se necessário
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,11 +10,11 @@ export class WebSocketService {
 
   messages = signal<any[]>([]);
   notifications = signal<any[]>([]);
+  friendRequestReceived = signal(0);
 
   connect(chatId?: string) {
     this.messages.set([]);
 
-    // Pega o id do usuário logado através do Signal do AuthService
     const currentUser = this.authService.user();
     const userId = currentUser?.id || currentUser?._id;
 
@@ -24,7 +24,7 @@ export class WebSocketService {
     }
 
     if (!this.socket || this.socket.readyState === WebSocket.CLOSED) {
-      // Passa o userId via Query Param no handshake da conexão
+
       this.socket = new WebSocket(`wss://fumec-hub-backend.onrender.com?userId=${userId}`);
 
       this.socket.onopen = () => {
@@ -56,6 +56,11 @@ export class WebSocketService {
 
         if (data.event === 'newMessageNotification') {
           this.notifications.update((notifications) => [...notifications, data]);
+        }
+
+        if(data.event === 'friendRequest') {
+          this.notifications.update((notifications) => [...notifications, data]);
+          this.friendRequestReceived.update((count) => count + 1);
         }
       };
     } else if (this.socket.readyState === WebSocket.OPEN && chatId) {

@@ -14,10 +14,14 @@ export class FriendshipService {
   }
 
   getRequests() {
-    return this.http.get<any[]>(this.apiUrl + 'friends/requests', { withCredentials: true });
+    return this.http.get<any>(this.apiUrl + 'friends/requests', { withCredentials: true });
   }
 
   acceptFriendShip(friendshipId: string) {
     return this.http.patch(this.apiUrl + 'friends/accept/' + friendshipId, {}, {withCredentials: true});
+  }
+
+  rejectFriendship(friendshipId: string) {
+    return this.http.patch(this.apiUrl + 'friends/reject/' + friendshipId, {}, {withCredentials: true});
   }
 }

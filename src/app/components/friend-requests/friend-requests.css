@@ -6,3 +6,53 @@
   border-radius: 10px;
   cursor: pointer;
 }
+
+.request {
+  display: flex;
+  gap: 15px;
+  border: 1px solid rgb(208, 208, 208);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  justify-content: space-between;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.info p {
+  margin: 0;
+}
+
+.info span {
+  color: gray;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+button {
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-accept {
+  background-color: rgb(127, 253, 127);
+  color: green;
+}
+
+.btn-reject {
+  background-color: rgb(255, 188, 188);
+  color: red;
+}

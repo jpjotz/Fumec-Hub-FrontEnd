@@ -5,9 +5,15 @@
   </section>
 
   <section class="chat-actions">
-    <button class="add-button" (click)="showFriends.set(true)">
-      <span class="material-symbols-outlined"> person_add </span>
-    </button>
+    <div class="add-button-container">
+      <button class="add-button" (click)="showFriends.set(true)">
+        <span class="material-symbols-outlined"> person_add </span>
+      </button>
+
+      @if (friendRequestCount() > 0) {
+        <span class="request-badge">!</span>
+      }
+    </div>
 
     <button class="logout-button" (click)="logout()">
       <span class="material-symbols-outlined"> logout </span>
@@ -21,8 +27,11 @@
           >Adicionar</span
         >
         <span [class.active]="friendsView() === 'requests'" (click)="friendsView.set('requests')"
-          >Pedidos</span
-        >
+          >Pedidos
+          @if (friendRequestCount() > 0) {
+            <span class="requestCount">{{ friendRequestCount() }}</span>
+          }
+        </span>
       </nav>
 
       @if (friendsView() === 'add') {
@@ -30,7 +39,7 @@
       }
 
       @if (friendsView() === 'requests') {
-        <app-friend-requests></app-friend-requests>
+        <app-friend-requests (requestRemoved)="friendRequestCount.update(count => count - 1)"></app-friend-requests>
       }
     </app-modal>
   }

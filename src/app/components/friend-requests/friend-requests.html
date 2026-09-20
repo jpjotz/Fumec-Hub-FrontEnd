@@ -3,13 +3,23 @@
 }
 
 @for (request of requests(); track request.id) {
-  <div style="display: flex; gap: 5px; margin-top: 15px;">
-    <p><b>Nome: </b>{{ request.sender.name }}</p>
-    <br>
-    <p><b>Id:</b> {{ request.sender.friendCode }}</p>
+  <div class="request">
+    <div class="info">
+      <p>
+        <b>{{ request.sender.name }}</b>
+      </p>
+      <span><b>ID:</b> {{ request.sender.friendCode }}</span>
+    </div>
 
     &nbsp;
 
-    <button (click)="aceitar(request.id)">Aceitar</button>
+    <div class="buttons">
+      <button class="btn-accept" (click)="aceitar(request.id)">
+        <span class="material-symbols-outlined"> check </span>
+      </button>
+      <button (click)="rejeitar(request.id)" class="btn-reject">
+        <span class="material-symbols-outlined"> close_small </span>
+      </button>
+    </div>
   </div>
 }

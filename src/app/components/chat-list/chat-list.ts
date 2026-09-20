@@ -1,4 +1,4 @@
-import { Component, signal, output, input } from '@angular/core';
+import { Component, signal, output, input, effect } from '@angular/core';
 import { ChatService } from '../../core/services/chat.service';
 import { ChatItem } from '../chat-item/chat-item';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { FriendRequests } from '../friend-requests/friend-requests';
 import { Modal } from '../shared/modal/modal';
 import { AuthService } from '../../core/services/auth.service';
 import { WebSocketService } from '../../core/services/websocket.service';
+import { FriendshipService } from '../../core/services/friendship.service';
 
 @Component({
   imports: [ChatItem, AddFriend, FriendRequests, Modal],
@@ -20,7 +21,17 @@ export class ChatList {
     private authService: AuthService,
     private webSocketService: WebSocketService,
     private router: Router,
-  ) {}
+    private friendshipService: FriendshipService,
+  ) {
+    effect(() => {
+      const received = this.webSocketService.friendRequestReceived();
+
+      if (received > 0) {
+        this.friendRequestCount.update((count) => count + received);
+        this.webSocketService.friendRequestReceived.set(0);
+      }
+    });
+  }
 
   chats = signal<any[]>([]);
   user = input<any>();
@@ -30,12 +41,13 @@ export class ChatList {
 
   openChatSelected = output<any>();
 
+  friendRequestCount = signal(0);
+
   openChat(chat: any) {
-    this.openChatSelected.emit(chat)
+    this.openChatSelected.emit(chat);
   }
 
   ngOnInit() {
-
     this.webSocketService.connect();
 
     this.chatService.getChats().subscribe({
@@ -44,6 +56,11 @@ export class ChatList {
       },
     });
 
+    this.friendshipService.getRequests().subscribe({
+      next: (data) => {
+        this.friendRequestCount.set(data.count);
+      },
+    });
   }
 
   logout() {
