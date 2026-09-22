@@ -9,7 +9,10 @@ import { WebSocketService } from '../../core/services/websocket.service';
   templateUrl: './chat-window.html',
 })
 export class ChatWindow {
+  typing = signal(false);
+  private typingTimeout: any;
   constructor(private webSocketService: WebSocketService) {
+    this.typing = this.webSocketService.typing;
     effect(() => {
       const messages = this.webSocketService.messages();
       const user = this.user();
@@ -28,25 +31,19 @@ export class ChatWindow {
       setTimeout(() => {
         const container = this.messagesContainer();
 
-        if(container) {
+        if (container) {
           container.nativeElement.scrollTop = container.nativeElement.scrollHeight;
         }
-      })
+      });
     });
   }
 
   messagesContainer = viewChild<ElementRef>('messagesContainer');
-
   chat = input<any>();
-
   back = output<void>();
-
   user = input<any>();
-
   messages = signal<any[]>([]);
-
   message = signal('');
-
   messageInput = viewChild<ElementRef>('messageInput');
 
   goBack() {
@@ -60,9 +57,19 @@ export class ChatWindow {
     }
 
     this.webSocketService.sendMessage(this.chat().id, this.message());
+    this.webSocketService.sendStopTyping(this.chat().id);
 
     this.message.set('');
+  }
 
+  sendTyping() {
+    this.webSocketService.sendTyping(this.chat().id);
+
+    clearTimeout(this.typingTimeout);
+
+    this.typingTimeout = setTimeout(() => {
+      this.webSocketService.sendStopTyping(this.chat().id);
+    }, 1000)
   }
 
   ngOnInit() {

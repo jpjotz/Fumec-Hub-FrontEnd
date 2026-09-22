@@ -18,12 +18,17 @@
     }
   </main>
 
+  @if(typing()) {
+    <span class="typing">{{chat().otherUser.name}} está digitando...</span>
+  }
+
   <footer class="message-input">
     <input
       #messageInput
       (keydown.enter)="sendMessage()"
       [(ngModel)]="message"
       type="text"
+      (input)="sendTyping()"
       placeholder="Digite uma mensagem..."
     />
     <button class="send-button" (click)="sendMessage()">

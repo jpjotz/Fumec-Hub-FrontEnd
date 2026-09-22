@@ -105,3 +105,9 @@ header button {
   align-self: center;
   user-select: none;
 }
+
+.typing {
+  color: gray;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}

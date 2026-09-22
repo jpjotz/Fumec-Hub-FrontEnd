@@ -12,6 +12,7 @@ export class WebSocketService {
   notifications = signal<any[]>([]);
   friendRequestReceived = signal(0);
   newChats = signal<any[]>([]);
+  typing = signal(false);
 
   connect(chatId?: string) {
     this.messages.set([]);
@@ -67,6 +68,14 @@ export class WebSocketService {
         if(data.event === 'newChat') {
           this.newChats.update((chats) => [...chats, data.chat]);
         }
+
+        if(data.event === 'typing') {
+          this.typing.set(true);
+        }
+
+        if(data.event === 'stopTyping') {
+          this.typing.set(false);
+        }
       };
     } else if (this.socket.readyState === WebSocket.OPEN && chatId) {
       this.joinChat(chatId);
@@ -87,6 +96,20 @@ export class WebSocketService {
 
   clearNotifications(chatId: string) {
     this.notifications.update((notifications) => notifications.filter((n) => n.chatId !== chatId));
+  }
+
+  sendTyping(chatId: string) {
+    this.safeSend({
+      event: 'typing',
+      chatId
+    });
+  }
+
+  sendStopTyping(chatId: string) {
+    this.safeSend({
+      event: 'stopTyping',
+      chatId
+    })
   }
 
   private safeSend(payload: object) {
