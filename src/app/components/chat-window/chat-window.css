@@ -111,3 +111,36 @@ header button {
   margin-left: 10px;
   margin-bottom: 10px;
 }
+
+.info {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  flex-direction: column;
+}
+
+.info h2{
+  margin: 0;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: gray;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-info {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.status-dot.online {
+  background-color: green;
+}
+
+.online {
+  color: green;
+}

@@ -3,7 +3,19 @@
     <button class="back-button" (click)="goBack()">
       <span class="material-symbols-outlined"> arrow_back </span>
     </button>
-    <h2>{{ chat().otherUser.name }}</h2>
+    <div class="info">
+      <h2>{{ chat().otherUser.name }}</h2>
+
+      <div class="status-info">
+        <span class="status-dot" [class.online]="isOtherUserOnline()"></span>
+
+        @if (isOtherUserOnline()) {
+          <span [class.online]="isOtherUserOnline()">Online</span>
+        } @else {
+          <span>Offline</span>
+        }
+      </div>
+    </div>
   </header>
 
   <main #messagesContainer class="messages">
@@ -18,8 +30,8 @@
     }
   </main>
 
-  @if(typing()) {
-    <span class="typing">{{chat().otherUser.name}} está digitando...</span>
+  @if (typing()) {
+    <span class="typing">{{ chat().otherUser.name }} está digitando...</span>
   }
 
   <footer class="message-input">

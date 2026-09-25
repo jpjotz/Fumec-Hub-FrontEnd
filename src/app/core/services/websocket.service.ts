@@ -13,6 +13,7 @@ export class WebSocketService {
   friendRequestReceived = signal(0);
   newChats = signal<any[]>([]);
   typing = signal(false);
+  onlineUsers = signal<string[]>([]);
 
   connect(chatId?: string) {
     this.messages.set([]);
@@ -26,7 +27,6 @@ export class WebSocketService {
     }
 
     if (!this.socket || this.socket.readyState === WebSocket.CLOSED) {
-
       this.socket = new WebSocket(`wss://fumec-hub-backend.onrender.com?userId=${userId}`);
 
       this.socket.onopen = () => {
@@ -60,21 +60,29 @@ export class WebSocketService {
           this.notifications.update((notifications) => [...notifications, data]);
         }
 
-        if(data.event === 'friendRequest') {
+        if (data.event === 'friendRequest') {
           this.notifications.update((notifications) => [...notifications, data]);
           this.friendRequestReceived.update((count) => count + 1);
         }
 
-        if(data.event === 'newChat') {
+        if (data.event === 'newChat') {
           this.newChats.update((chats) => [...chats, data.chat]);
         }
 
-        if(data.event === 'typing') {
+        if (data.event === 'typing') {
           this.typing.set(true);
         }
 
-        if(data.event === 'stopTyping') {
+        if (data.event === 'stopTyping') {
           this.typing.set(false);
+        }
+
+        if (data.event === 'userOnline') {
+          this.onlineUsers.update((users) => [...users, data.userId]);
+        }
+
+        if(data.event === 'userOffline') {
+          this.onlineUsers.update(users => users.filter(userId => userId !== data.userId));
         }
       };
     } else if (this.socket.readyState === WebSocket.OPEN && chatId) {
@@ -101,15 +109,15 @@ export class WebSocketService {
   sendTyping(chatId: string) {
     this.safeSend({
       event: 'typing',
-      chatId
+      chatId,
     });
   }
 
   sendStopTyping(chatId: string) {
     this.safeSend({
       event: 'stopTyping',
-      chatId
-    })
+      chatId,
+    });
   }
 
   private safeSend(payload: object) {

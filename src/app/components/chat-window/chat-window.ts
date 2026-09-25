@@ -13,6 +13,8 @@ export class ChatWindow {
   private typingTimeout: any;
   constructor(private webSocketService: WebSocketService) {
     this.typing = this.webSocketService.typing;
+    this.onlineUsers = this.webSocketService.onlineUsers;
+
     effect(() => {
       const messages = this.webSocketService.messages();
       const user = this.user();
@@ -27,6 +29,8 @@ export class ChatWindow {
           type: message.senderId === user.id ? 'sent' : 'received',
         })),
       );
+
+      this.isOtherUserOnline.set(this.onlineUsers().includes(this.chat().otherUser.id));
 
       setTimeout(() => {
         const container = this.messagesContainer();
@@ -45,6 +49,8 @@ export class ChatWindow {
   messages = signal<any[]>([]);
   message = signal('');
   messageInput = viewChild<ElementRef>('messageInput');
+  onlineUsers = signal<string[]>([]);
+  isOtherUserOnline = signal(false);
 
   goBack() {
     this.back.emit();
