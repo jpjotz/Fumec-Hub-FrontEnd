@@ -87,6 +87,11 @@ select {
   box-sizing: border-box;
   border-radius: 10px;
   border: 1px solid gray;
+  color: gray;
+}
+
+option {
+  color: black;
 }
 
 @media (min-width: 1024px) {
