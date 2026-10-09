@@ -81,6 +81,14 @@ img {
   text-align: center;
 }
 
+select {
+  padding: 20px;
+  width: 250px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid gray;
+}
+
 @media (min-width: 1024px) {
   :host {
     padding: 0;
