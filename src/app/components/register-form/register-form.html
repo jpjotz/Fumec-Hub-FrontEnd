@@ -11,7 +11,7 @@
 
   <input [(ngModel)]="email" name="email" type="email" placeholder="Digite seu email" />
 
-  <select [ngModel]="courseId()" (ngModelChange)="courseId.set($event)" name="courseId">
+  <select [class.placeholder-selected]="!courseId()" [ngModel]="courseId()" (ngModelChange)="courseId.set($event)" name="courseId">
     <option value="">Selecione o seu curso</option>
 
     @for (course of courses(); track course.id) {
