@@ -135,6 +135,7 @@ header button {
   display: flex;
   gap: 5px;
   align-items: center;
+  font-size: 14px;
 }
 
 .status-dot.online {
@@ -143,4 +144,29 @@ header button {
 
 .online {
   color: green;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.user-info h2 {
+  margin: 0;
+}
+
+.user-info span {
+  margin-top: 2px;
+  font-size: 13px;
+  color: gray;
+}
+
+.separador {
+  margin-top: 2px;
+  height: 4px;
+  width: 4px;
+  background-color: gray;
+  border-radius: 50%;
 }

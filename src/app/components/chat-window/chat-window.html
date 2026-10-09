@@ -4,7 +4,11 @@
       <span class="material-symbols-outlined"> arrow_back </span>
     </button>
     <div class="info">
-      <h2>{{ chat().otherUser.name }}</h2>
+      <div class="user-info">
+        <h2>{{ chat().otherUser.name }}</h2>
+        <div class="separador"></div>
+        <span>{{ chat().otherUser.Course?.name }}</span>
+      </div>
 
       <div class="status-info">
         <span class="status-dot" [class.online]="isOtherUserOnline()"></span>
