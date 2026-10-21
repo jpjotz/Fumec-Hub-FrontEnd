@@ -1,4 +1,4 @@
-:host {
+/* :host {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -162,4 +162,4 @@ button:disabled {
   to {
     transform: rotate(360deg);
   }
-}
+} */
