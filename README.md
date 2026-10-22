@@ -105,7 +105,7 @@ development → main
 
 ### Front-End
 
-<img src="https://skillicons.dev/icons?i=html,css,angular,ts,materialui" title="HTML5, CSS3, Angular, TypeScript e MaterialUI" />
+<img src="https://skillicons.dev/icons?i=html,css,angular,ts,materialui,tailwindcss" title="HTML5, CSS3, Angular, TypeScript, MaterialUI e TailwindCSS" />
 
 ### Back-End
 
