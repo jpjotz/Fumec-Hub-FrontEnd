@@ -8,7 +8,7 @@
     (submit)="$event.preventDefault(); login()"
   >
     <input
-      class="box-border w-[250px] rounded-[10px] border border-gray-500 p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color)"
+      class="box-border w-[250px] rounded-[10px] border border-gray-500 p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
       [(ngModel)]="email"
       name="email"
       type="email"
@@ -17,7 +17,7 @@
 
     <div class="relative w-[250px]">
       <input
-        class="box-border w-full rounded-[10px] border border-gray-500 p-5 pr-[55px] focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color)"
+        class="box-border w-full rounded-[10px] border border-gray-500 p-5 pr-[55px] focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
         [(ngModel)]="password"
         name="password"
         [type]="showPassword() ? 'text' : 'password'"

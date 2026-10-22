@@ -12,7 +12,7 @@
     (submit)="$event.preventDefault(); register()"
   >
     <input
-      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color)"
+      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
       [(ngModel)]="name"
       name="name"
       type="text"
@@ -20,7 +20,7 @@
     />
 
     <input
-      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color)"
+      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
       [(ngModel)]="email"
       name="email"
       type="email"
@@ -28,7 +28,7 @@
     />
 
     <select
-      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5"
+      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 bg-white"
       [class.text-[#808080]]="!courseId()"
       [ngModel]="courseId()"
       (ngModelChange)="courseId.set($event)"
@@ -44,7 +44,7 @@
     </select>
 
     <input
-      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color)"
+      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
       [(ngModel)]="password"
       name="password"
       [type]="showPassword() ? 'text' : 'password'"
