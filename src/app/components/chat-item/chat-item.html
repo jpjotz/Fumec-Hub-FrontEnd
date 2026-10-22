@@ -1,11 +1,19 @@
-<div class="chat-item" (click)="selectChat()">
-  <div class="chat-info">
-    <img src="avatar.png" alt="" />
-    <p>{{ chat().otherUser.name }}</p>
+<div
+  class="box-border flex w-full cursor-pointer select-none flex-row items-center justify-between gap-2.5 border-b border-[#ddd] px-2 py-[15px]"
+  (click)="selectChat()"
+>
+  <div class="flex flex-row items-center justify-center gap-2.5">
+    <img class="h-[45px] w-[45px]" src="avatar.png" alt="" />
+
+    <p class="m-0 text-[17px] font-medium">
+      {{ chat().otherUser.name }}
+    </p>
   </div>
 
   @if (notifications().filter((n) => n.chatId === chat().id).length > 0) {
-    <span class="notification">
+    <span
+      class="flex h-[25px] w-[25px] shrink-0 items-center justify-center rounded-full bg-(--primary-color) text-[16px] text-white"
+    >
       {{ notifications().filter((n) => n.chatId === chat().id).length }}
     </span>
   }

@@ -3,22 +3,32 @@
 }
 
 @for (request of requests(); track request.id) {
-  <div class="request">
-    <div class="info">
-      <p>
+  <div
+    class="mb-[15px] flex justify-between gap-[15px] rounded-[10px] border border-[rgb(208,208,208)] p-[15px]"
+  >
+    <div class="flex flex-col gap-[5px]">
+      <p class="m-0">
         <b>{{ request.sender.name }}</b>
       </p>
-      <span><b>ID:</b> {{ request.sender.friendCode }}</span>
+
+      <span class="text-[gray]">
+        <b>ID:</b> {{ request.sender.friendCode }}
+      </span>
     </div>
 
-    &nbsp;
-
-    <div class="buttons">
-      <button class="btn-accept" (click)="aceitar(request.id)">
-        <span class="material-symbols-outlined"> check </span>
+    <div class="flex flex-row justify-end gap-2.5">
+      <button
+        class="flex cursor-pointer justify-center rounded-[5px] border-0 bg-[rgb(127,253,127)] p-2.5 text-[green]"
+        (click)="aceitar(request.id)"
+      >
+        <span class="material-symbols-outlined">check</span>
       </button>
-      <button (click)="rejeitar(request.id)" class="btn-reject">
-        <span class="material-symbols-outlined"> close_small </span>
+
+      <button
+        class="flex cursor-pointer justify-center rounded-[5px] border-0 bg-[rgb(255,188,188)] p-2.5 text-[red]"
+        (click)="rejeitar(request.id)"
+      >
+        <span class="material-symbols-outlined">close_small</span>
       </button>
     </div>
   </div>
