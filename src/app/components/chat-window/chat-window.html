@@ -1,20 +1,31 @@
-<div class="chat-window">
-  <header>
-    <button class="back-button" (click)="goBack()">
-      <span class="material-symbols-outlined"> arrow_back </span>
+<div class="flex h-full flex-col">
+  <header class="flex items-center gap-[15px] border-b border-[#ddd] p-[15px]">
+    <button
+      class="flex cursor-pointer items-center justify-center border-0 bg-transparent p-[5px] text-[rgb(0,98,255)] select-none"
+      (click)="goBack()"
+    >
+      <span class="material-symbols-outlined text-[25px]">arrow_back</span>
     </button>
-    <div class="info">
-      <div class="user-info">
-        <h2>{{ chat().otherUser.name }}</h2>
-        <div class="separador"></div>
-        <span>{{ chat().otherUser.Course?.name }}</span>
+
+    <div class="flex flex-col items-start gap-[5px]">
+      <div class="flex items-center gap-2 text-center">
+        <h2 class="m-0 text-[18px] font-bold">{{ chat().otherUser.name }}</h2>
+
+        <div class="mt-0.5 h-1 w-1 rounded-full bg-[gray]"></div>
+
+        <span class="mt-0.5 text-[13px] text-[gray]">
+          {{ chat().otherUser.Course?.name }}
+        </span>
       </div>
 
-      <div class="status-info">
-        <span class="status-dot" [class.online]="isOtherUserOnline()"></span>
+      <div class="flex items-center gap-[5px] text-[14px]">
+        <span
+          class="inline-block h-2 w-2 rounded-full bg-[gray]"
+          [class.bg-[green]]="isOtherUserOnline()"
+        ></span>
 
         @if (isOtherUserOnline()) {
-          <span [class.online]="isOtherUserOnline()">Online</span>
+          <span class="text-[green]">Online</span>
         } @else {
           <span>Offline</span>
         }
@@ -22,12 +33,24 @@
     </div>
   </header>
 
-  <main #messagesContainer class="messages">
+  <main
+    #messagesContainer
+    class="flex flex-1 flex-col gap-2.5 overflow-y-auto scroll-smooth p-[15px]"
+  >
     @if (messages().length === 0) {
-      <p class="no-messages">Nenhuma mensagem enviada.</p>
+      <p class="m-0 self-center text-center text-[gray] select-none">
+        Nenhuma mensagem enviada.
+      </p>
     } @else {
       @for (message of messages(); track $index) {
-        <p [class]="message.type">
+        <p
+          class="m-0 max-w-[70%] rounded-[12px] px-[14px] py-2.5"
+          [class.self-start]="message.type === 'received'"
+          [class.bg-[#eee]]="message.type === 'received'"
+          [class.self-end]="message.type === 'sent'"
+          [class.bg-[rgb(0,98,255)]]="message.type === 'sent'"
+          [class.text-white]="message.type === 'sent'"
+        >
           {{ message.text }}
         </p>
       }
@@ -35,20 +58,27 @@
   </main>
 
   @if (typing()) {
-    <span class="typing">{{ chat().otherUser.name }} está digitando...</span>
+    <span class="mb-2.5 ml-2.5 text-[gray]">
+      {{ chat().otherUser.name }} está digitando...
+    </span>
   }
 
-  <footer class="message-input">
+  <footer class="flex gap-2.5 border-t border-[#ddd] p-2.5">
     <input
       #messageInput
+      class="min-w-0 flex-1 rounded-[10px] border-2 border-[#ddd] p-3 text-[16px] outline-none focus:border-[rgb(0,98,255)]"
       (keydown.enter)="sendMessage()"
       [(ngModel)]="message"
       type="text"
       (input)="sendTyping()"
       placeholder="Digite uma mensagem..."
     />
-    <button class="send-button" (click)="sendMessage()">
-      <span class="material-symbols-outlined"> send </span>
+
+    <button
+      class="flex cursor-pointer items-center justify-center border-0 bg-transparent p-[5px] text-[rgb(0,98,255)] select-none"
+      (click)="sendMessage()"
+    >
+      <span class="material-symbols-outlined text-[30px]">send</span>
     </button>
   </footer>
 </div>

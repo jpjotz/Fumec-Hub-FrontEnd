@@ -1,9 +1,15 @@
-<div class="modal">
-  <div class="modal-content">
-    <header class="modal-header">
-      <h2>{{title()}}</h2>
-      <button class="close-button" (click)="close.emit()">
-        <span class="material-symbols-outlined"> close </span>
+<div
+  class="fixed inset-0 z-[9999] flex items-center justify-center bg-[rgba(0,0,0,0.5)] select-none"
+>
+  <div class="flex flex-col rounded-[10px] bg-white p-5">
+    <header class="mb-[15px] flex flex-row items-center justify-between py-2.5">
+      <h2 class="m-0 text-[1.5em] font-bold">{{ title() }}</h2>
+
+      <button
+        class="cursor-pointer border-0 bg-transparent text-[16px] font-bold select-none"
+        (click)="close.emit()"
+      >
+        <span class="material-symbols-outlined">close</span>
       </button>
     </header>
 

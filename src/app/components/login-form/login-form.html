@@ -1,46 +1,72 @@
-<img class="logo" src="logo.webp" alt="" />
+<div class="flex h-full flex-col items-center justify-center bg-[rgb(231,235,238)]">
+  <img class="mb-[10px] max-w-1/2 invert lg:max-w-[20%]" src="logo.webp" alt="" />
 
-<h1>Login</h1>
+  <h1 class="text-[2em] font-bold">Login</h1>
 
-<form (submit)="$event.preventDefault(); login()">
-  <input [(ngModel)]="email" name="email" type="email" placeholder="Digite seu email" />
-
-  <div class="password-field">
+  <form
+    class="flex flex-col items-center justify-center gap-[15px] p-6"
+    (submit)="$event.preventDefault(); login()"
+  >
     <input
-      [(ngModel)]="password"
-      name="password"
-      [type]="showPassword() ? 'text' : 'password'"
-      placeholder="Digite sua senha"
+      class="box-border w-[250px] rounded-[10px] border border-gray-500 p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
+      [(ngModel)]="email"
+      name="email"
+      type="email"
+      placeholder="Digite seu email"
     />
 
-    @if (password()) {
-      <button type="button" class="show-password" (click)="showPassword.update((value) => !value)">
-        <span class="material-symbols-outlined">
-          {{ showPassword() ? 'visibility_off' : 'visibility' }}
-        </span>
+    <div class="relative w-[250px]">
+      <input
+        class="box-border w-full rounded-[10px] border border-gray-500 p-5 pr-[55px] focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
+        [(ngModel)]="password"
+        name="password"
+        [type]="showPassword() ? 'text' : 'password'"
+        placeholder="Digite sua senha"
+      />
+
+      @if (password()) {
+        <button
+          class="absolute right-[10px] top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center border-0 bg-transparent p-[5px]"
+          type="button"
+          (click)="showPassword.update((value) => !value)"
+        >
+          <span class="material-symbols-outlined text-[22px]">
+            {{ showPassword() ? 'visibility_off' : 'visibility' }}
+          </span>
+        </button>
+      }
+    </div>
+
+    <button
+      class="w-[250px] rounded-[10px] border-0 bg-(--primary-color) p-5 text-[15px] font-bold text-white enabled:lg:cursor-pointer enabled:lg:transition enabled:lg:duration-100 enabled:lg:hover:scale-[1.02] enabled:lg:hover:shadow-[0_5px_15px_rgba(0,0,0,0.35)] disabled:cursor-not-allowed disabled:bg-[#999]"
+      type="submit"
+      [disabled]="loading()"
+    >
+      @if (loading()) {
+        <span class="material-symbols-outlined animate-spin text-[15px]"> progress_activity </span>
+      } @else {
+        Login
+      }
+    </button>
+
+    <div class="flex items-center justify-center gap-1">
+      <p class="m-0 text-[15px] leading-none">Novo por aqui?</p>
+
+      <button
+        class="border-0 bg-transparent p-0 text-[15px] leading-none font-bold text-(--primary-color) lg:transition lg:duration-100 lg:hover:scale-[1.02] lg:hover:text-[rgb(48,126,252)] lg:hover:cursor-pointer"
+        type="button"
+        (click)="goToRegister.emit()"
+      >
+        Criar uma conta
       </button>
+    </div>
+
+    @if (message()) {
+      @if (message().includes('sucesso')) {
+        <p class="text-green-600">{{ message() }}</p>
+      } @else {
+        <p class="text-red-600">{{ message() }}</p>
+      }
     }
-  </div>
-
-  <button class="login" type="submit" [disabled]="loading()">
-    @if (loading()) {
-      <span class="material-symbols-outlined spinner"> progress_activity </span>
-    } @else {
-      Login
-    }
-  </button>
-
-  <div class="register-account">
-    <p>Novo por aqui?</p>
-
-    <button class="register" type="button" (click)="goToRegister.emit()">Criar uma conta</button>
-  </div>
-
-  @if (message()) {
-    @if (message().includes('sucesso')) {
-      <p class="message-sucesso">{{ message() }}</p>
-    } @else {
-      <p class="message">{{ message() }}</p>
-    }
-  }
-</form>
+  </form>
+</div>

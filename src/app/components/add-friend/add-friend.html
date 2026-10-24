@@ -1,22 +1,30 @@
-<input
-  class="add-input"
-  [(ngModel)]="search"
-  type="text"
-  placeholder="Digite o código de amizade"
-  (keydown.enter)="pesquisar()"
-/>
-<button class="add-button" (click)="pesquisar()">
-  @if (loading()) {
-    <span class="material-symbols-outlined spinner"> progress_activity </span>
-  } @else {
-    Adicionar
-  }
-</button>
+<div class="flex flex-wrap items-center gap-2.5">
+  <input
+    class="mr-0 rounded-[10px] border border-[#808080] p-[15px] outline-none focus:border-(--primary-color)"
+    [(ngModel)]="search"
+    type="text"
+    placeholder="Digite o código de amizade"
+    (keydown.enter)="pesquisar()"
+  />
+
+  <button
+    class="cursor-pointer rounded-[10px] border-0 bg-(--primary-color) p-[15px] text-white"
+    (click)="pesquisar()"
+  >
+    @if (loading()) {
+      <span class="material-symbols-outlined animate-[spin_1s_linear_infinite] text-[20px]">
+        progress_activity
+      </span>
+    } @else {
+      Adicionar
+    }
+  </button>
+</div>
 
 @if (message()) {
   @if (message().includes('enviada')) {
-    <p class="message-success">{{ message() }}</p>
+    <p class="text-[green]">{{ message() }}</p>
   } @else {
-    <p class="message-error">{{ message() }}</p>
+    <p class="text-[red]">{{ message() }}</p>
   }
 }
