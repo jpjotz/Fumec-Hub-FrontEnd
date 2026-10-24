@@ -1,84 +1,88 @@
-<div class="flex h-full flex-col items-center justify-center bg-[rgb(231,235,238)]">
-  <img class="mb-[10px] max-w-[50%] invert lg:max-w-[20%]" src="logo.webp" alt="" />
+<div class="flex h-full flex-col items-center justify-center bg-[#020246]">
+  <img class="mb-[10px] max-w-[60%] lg:max-w-[20%]" src="logo.webp" alt="" />
 
-  <h1 class="text-[2em] font-bold">Cadastro</h1>
-
-  <span class="max-w-[300px] text-center">
-    <i>O email a ser cadastrado deve ser o email institucional da Fumec.</i>
-  </span>
-
-  <form
-    class="flex flex-col items-center justify-center gap-[15px] p-6"
-    (submit)="$event.preventDefault(); register()"
+  <div
+    class="flex flex-col items-center justify-center rounded-lg border border-white bg-gradient-to-b from-[#f5f6fa] to-[#c0c3d9] p-5 pt-10"
   >
-    <input
-      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
-      [(ngModel)]="name"
-      name="name"
-      type="text"
-      placeholder="Digite seu nome"
-    />
+    <h1 class="text-[2em] font-bold text-center">CADASTRO</h1>
 
-    <input
-      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
-      [(ngModel)]="email"
-      name="email"
-      type="email"
-      placeholder="Digite seu email"
-    />
+    <span class="max-w-[300px] text-gray-600 text-center items-center flex">
+      <i>O email a ser cadastrado deve ser o email institucional da Fumec.</i>
+    </span>
 
-    <select
-      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 bg-white"
-      [class.text-[#808080]]="!courseId()"
-      [ngModel]="courseId()"
-      (ngModelChange)="courseId.set($event)"
-      name="courseId"
+    <form
+      class="flex flex-col items-center justify-center gap-[15px] p-6"
+      (submit)="$event.preventDefault(); register()"
     >
-      <option value="">Selecione o seu curso</option>
+      <input
+        class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
+        [(ngModel)]="name"
+        name="name"
+        type="text"
+        placeholder="Digite seu nome"
+      />
 
-      @for (course of courses(); track course.id) {
-        <option class="text-black" [value]="course.id">
-          {{ course.name }}
-        </option>
+      <input
+        class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
+        [(ngModel)]="email"
+        name="email"
+        type="email"
+        placeholder="Digite seu email"
+      />
+
+      <select
+        class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 bg-white"
+        [class.text-[#808080]]="!courseId()"
+        [ngModel]="courseId()"
+        (ngModelChange)="courseId.set($event)"
+        name="courseId"
+      >
+        <option value="">Selecione o seu curso</option>
+
+        @for (course of courses(); track course.id) {
+          <option class="text-black" [value]="course.id">
+            {{ course.name }}
+          </option>
+        }
+      </select>
+
+      <input
+        class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
+        [(ngModel)]="password"
+        name="password"
+        [type]="showPassword() ? 'text' : 'password'"
+        placeholder="Digite sua senha"
+      />
+
+      <button
+        class="w-[250px] rounded-[10px] border-0 bg-(--primary-color) p-5 text-[15px] font-bold text-white enabled:lg:cursor-pointer enabled:lg:transition enabled:lg:duration-100 enabled:lg:hover:scale-[1.02] enabled:lg:hover:shadow-[0_5px_15px_rgba(0,0,0,0.35)] disabled:cursor-not-allowed disabled:bg-[#999]"
+        type="submit"
+        [disabled]="loading()"
+      >
+        @if (loading()) {
+          <span class="material-symbols-outlined animate-spin text-[15px]">
+            progress_activity
+          </span>
+        } @else {
+          Registrar
+        }
+      </button>
+
+      <button
+        class="border-0 bg-transparent p-0 text-[15px] font-bold text-(--primary-color) lg:transition lg:duration-100 lg:hover:scale-[1.02] lg:hover:text-[rgb(48,126,252)] lg:hover:cursor-pointer"
+        type="button"
+        (click)="goToLogin.emit()"
+      >
+        Já tenho uma conta
+      </button>
+
+      @if (message()) {
+        @if (message().includes('criado')) {
+          <p class="text-[green]">{{ message() }}</p>
+        } @else {
+          <p class="text-[red]">{{ message() }}</p>
+        }
       }
-    </select>
-
-    <input
-      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
-      [(ngModel)]="password"
-      name="password"
-      [type]="showPassword() ? 'text' : 'password'"
-      placeholder="Digite sua senha"
-    />
-
-    <button
-      class="w-[250px] rounded-[10px] border-0 bg-(--primary-color) p-5 text-[15px] font-bold text-white enabled:lg:cursor-pointer enabled:lg:transition enabled:lg:duration-100 enabled:lg:hover:scale-[1.02] enabled:lg:hover:shadow-[0_5px_15px_rgba(0,0,0,0.35)] disabled:cursor-not-allowed disabled:bg-[#999]"
-      type="submit"
-      [disabled]="loading()"
-    >
-      @if (loading()) {
-        <span class="material-symbols-outlined animate-spin text-[15px]">
-          progress_activity
-        </span>
-      } @else {
-        Registrar
-      }
-    </button>
-
-    <button
-      class="border-0 bg-transparent p-0 text-[15px] font-bold text-(--primary-color) lg:transition lg:duration-100 lg:hover:scale-[1.02] lg:hover:text-[rgb(48,126,252)] lg:hover:cursor-pointer"
-      type="button"
-      (click)="goToLogin.emit()"
-    >
-      Já tenho uma conta
-    </button>
-
-    @if (message()) {
-      @if (message().includes('criado')) {
-        <p class="text-[green]">{{ message() }}</p>
-      } @else {
-        <p class="text-[red]">{{ message() }}</p>
-      }
-    }
-  </form>
+    </form>
+  </div>
 </div>
