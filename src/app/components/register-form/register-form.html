@@ -1,84 +1,137 @@
-<div class="flex h-full flex-col items-center justify-center bg-[rgb(231,235,238)]">
-  <img class="mb-[10px] max-w-[50%] invert lg:max-w-[20%]" src="logo.webp" alt="" />
+<div
+  class="flex min-h-screen flex-col items-center justify-center bg-gradient-to-t from-[#101080] to-[#020246]"
+>
+  <img class="mb-[10px] max-w-[60%] md:max-w-[35%] lg:max-w-[15%]" src="logo.webp" alt="" />
 
-  <h1 class="text-[2em] font-bold">Cadastro</h1>
-
-  <span class="max-w-[300px] text-center">
-    <i>O email a ser cadastrado deve ser o email institucional da Fumec.</i>
-  </span>
-
-  <form
-    class="flex flex-col items-center justify-center gap-[15px] p-6"
-    (submit)="$event.preventDefault(); register()"
+  <div
+    class="flex flex-col items-center justify-center rounded-lg border border-white bg-gradient-to-b from-[#f5f6fa] to-[#c0c3d9] p-5 pt-10 pb-0 lg:p-10 lg:pb-0 shadow-lg shadow-black/60"
   >
-    <input
-      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
-      [(ngModel)]="name"
-      name="name"
-      type="text"
-      placeholder="Digite seu nome"
-    />
+    <h1 class="text-[2em] font-bold text-center">CADASTRO</h1>
 
-    <input
-      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
-      [(ngModel)]="email"
-      name="email"
-      type="email"
-      placeholder="Digite seu email"
-    />
+    <span class="max-w-[300px] text-gray-600 text-center items-center flex">
+      <i>O email a ser cadastrado deve ser o email institucional da Fumec.</i>
+    </span>
 
-    <select
-      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 bg-white"
-      [class.text-[#808080]]="!courseId()"
-      [ngModel]="courseId()"
-      (ngModelChange)="courseId.set($event)"
-      name="courseId"
+    <form
+      class="flex flex-col items-center justify-center gap-[10px] p-6"
+      (submit)="$event.preventDefault(); register()"
     >
-      <option value="">Selecione o seu curso</option>
+      <label class="text-md font-bold self-start mb-[-5px]" for="nome">Nome</label>
+      <input
+        class="box-border w-[250px] rounded-[10px] border border-[#808080] py-3.5 px-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
+        [(ngModel)]="name"
+        name="name"
+        type="text"
+        placeholder="Digite seu nome"
+      />
 
-      @for (course of courses(); track course.id) {
-        <option class="text-black" [value]="course.id">
-          {{ course.name }}
-        </option>
+      <label class="text-md font-bold self-start mb-[-5px]" for="email">E-mail</label>
+      <input
+        class="box-border w-[250px] rounded-[10px] border border-[#808080] py-3.5 px-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
+        [(ngModel)]="email"
+        name="email"
+        type="email"
+        placeholder="Digite seu email"
+      />
+
+      <label class="text-md font-bold self-start mb-[-5px]" for="curso">Curso</label>
+      <select
+        class="box-border w-[250px] rounded-[10px] border border-[#808080] py-3.5 px-5 bg-white"
+        [class.text-[#808080]]="!courseId()"
+        [ngModel]="courseId()"
+        (ngModelChange)="courseId.set($event)"
+        name="courseId"
+      >
+        <option value="">Selecione o seu curso</option>
+
+        @for (course of courses(); track course.id) {
+          <option class="text-black" [value]="course.id">
+            {{ course.name }}
+          </option>
+        }
+      </select>
+
+      <label class="text-md font-bold self-start mb-[-5px]" for="senha">Senha</label>
+      <div class="relative w-[250px]">
+        <input
+          class="box-border w-full rounded-[10px] border border-[#808080] py-3.5 px-5 pr-[55px] focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
+          [(ngModel)]="password"
+          name="password"
+          [type]="showPassword() ? 'text' : 'password'"
+          placeholder="Digite sua senha"
+        />
+
+        @if (password()) {
+          <button
+            class="absolute right-[10px] top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center border-0 bg-transparent p-[5px]"
+            type="button"
+            (click)="showPassword.update((value) => !value)"
+          >
+            <span class="material-symbols-outlined text-[22px]">
+              {{ showPassword() ? 'visibility_off' : 'visibility' }}
+            </span>
+          </button>
+        }
+      </div>
+
+      <label class="text-md font-bold self-start" for="confirmPassword"> Confirmar senha </label>
+
+      <div class="relative w-[250px]">
+        <input
+          class="box-border w-full rounded-[10px] border border-[#808080] bg-white px-5 py-3.5 pr-[55px] focus:border-(--primary-color) focus:outline-none"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+          [type]="showPassword() ? 'text' : 'password'"
+          placeholder="Confirme sua senha"
+        />
+
+        @if (confirmPassword()) {
+          <button
+            class="absolute right-[10px] top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center border-0 bg-transparent p-[5px]"
+            type="button"
+            (click)="showPassword.update((value) => !value)"
+          >
+            <span class="material-symbols-outlined text-[22px]">
+              {{ showPassword() ? 'visibility_off' : 'visibility' }}
+            </span>
+          </button>
+        }
+      </div>
+
+      <button
+        class="w-[250px] rounded-[10px] border-0 bg-(--primary-color) py-3.5 px-5 text-[15px] font-bold text-white enabled:lg:cursor-pointer enabled:lg:transition enabled:lg:duration-100 enabled:lg:hover:scale-[1.02] enabled:lg:hover:shadow-[0_5px_15px_rgba(0,0,0,0.35)] disabled:cursor-not-allowed disabled:bg-[#999]"
+        type="submit"
+        [disabled]="loading()"
+      >
+        @if (loading()) {
+          <span class="material-symbols-outlined animate-spin text-[15px]">
+            progress_activity
+          </span>
+        } @else {
+          Registrar
+        }
+      </button>
+
+      <button
+        class="border-0 bg-transparent p-0 text-[15px] font-bold text-(--primary-color) lg:transition lg:duration-100 lg:hover:scale-[1.02] lg:hover:text-[rgb(48,126,252)] lg:hover:cursor-pointer"
+        type="button"
+        (click)="goToLogin.emit()"
+      >
+        Já tenho uma conta
+      </button>
+
+      @if (message()) {
+        @if (message().includes('criado')) {
+          <p class="text-[green]">{{ message() }}</p>
+        } @else {
+          <p class="text-[red]">{{ message() }}</p>
+        }
       }
-    </select>
+    </form>
+  </div>
 
-    <input
-      class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
-      [(ngModel)]="password"
-      name="password"
-      [type]="showPassword() ? 'text' : 'password'"
-      placeholder="Digite sua senha"
-    />
-
-    <button
-      class="w-[250px] rounded-[10px] border-0 bg-(--primary-color) p-5 text-[15px] font-bold text-white enabled:lg:cursor-pointer enabled:lg:transition enabled:lg:duration-100 enabled:lg:hover:scale-[1.02] enabled:lg:hover:shadow-[0_5px_15px_rgba(0,0,0,0.35)] disabled:cursor-not-allowed disabled:bg-[#999]"
-      type="submit"
-      [disabled]="loading()"
-    >
-      @if (loading()) {
-        <span class="material-symbols-outlined animate-spin text-[15px]">
-          progress_activity
-        </span>
-      } @else {
-        Registrar
-      }
-    </button>
-
-    <button
-      class="border-0 bg-transparent p-0 text-[15px] font-bold text-(--primary-color) lg:transition lg:duration-100 lg:hover:scale-[1.02] lg:hover:text-[rgb(48,126,252)] lg:hover:cursor-pointer"
-      type="button"
-      (click)="goToLogin.emit()"
-    >
-      Já tenho uma conta
-    </button>
-
-    @if (message()) {
-      @if (message().includes('criado')) {
-        <p class="text-[green]">{{ message() }}</p>
-      } @else {
-        <p class="text-[red]">{{ message() }}</p>
-      }
-    }
-  </form>
+  <p class="text-white text-center text-sm pt-4 font-sans w-sm md:w-lg">
+    Ao se cadastrar, você concorda com os
+    <span class="text-(--primary-color)">termos de uso</span> da plataforma
+  </p>
 </div>
