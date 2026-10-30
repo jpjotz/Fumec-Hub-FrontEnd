@@ -20,6 +20,7 @@ export class RegisterForm {
   name = signal('');
   email = signal('');
   password = signal('');
+  confirmPassword = signal('');
   message = signal('');
 
   courses = signal<any[]>([]);
@@ -33,20 +34,28 @@ export class RegisterForm {
   ngOnInit() {
     this.courseService.getCourses().subscribe({
       next: (courses) => {
-        this.courses.set(
-          courses.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))
-        );
+        this.courses.set(courses.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR')));
       },
 
       error: (error) => {
         console.log(error);
-      }
-    })
+      },
+    });
   }
 
   register() {
-    if(!this.courseId()) {
-      this.message.set("Selecione seu curso");
+    if (!this.password()) {
+      this.message.set('Informe sua senha');
+      return;
+    }
+
+    if (this.password() !== this.confirmPassword()) {
+      this.message.set('As senhas não coincidem');
+      return;
+    }
+
+    if (!this.courseId()) {
+      this.message.set('Selecione seu curso');
       return;
     }
 
@@ -57,23 +66,24 @@ export class RegisterForm {
       }
     }
 
-
     this.loading.set(true);
 
-    this.authService.register(this.name(), this.email(), this.password(), this.courseId()).subscribe({
-      next: (data) => {
-        this.message.set('Usuário criado com sucesso!');
-        this.loading.set(false);
+    this.authService
+      .register(this.name(), this.email(), this.password(), this.courseId())
+      .subscribe({
+        next: (data) => {
+          this.message.set('Usuário criado com sucesso!');
+          this.loading.set(false);
 
-        setTimeout(() => {
-          this.router.navigate(['/']);
-        }, 1000);
-      },
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          }, 1000);
+        },
 
-      error: (error) => {
-        this.message.set(error.error.message || error.error);
-        this.loading.set(false);
-      },
-    });
+        error: (error) => {
+          this.message.set(error.error.message || error.error);
+          this.loading.set(false);
+        },
+      });
   }
 }

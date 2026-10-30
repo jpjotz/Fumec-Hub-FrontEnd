@@ -1,8 +1,10 @@
-<div class="flex min-h-screen flex-col items-center justify-center bg-[#020246]">
+<div
+  class="flex min-h-screen flex-col items-center justify-center bg-gradient-to-t from-[#101080] to-[#020246]"
+>
   <img class="mb-[10px] max-w-[60%] md:max-w-[35%] lg:max-w-[15%]" src="logo.webp" alt="" />
 
   <div
-    class="flex flex-col items-center justify-center rounded-lg border border-white bg-gradient-to-b from-[#f5f6fa] to-[#c0c3d9] p-5 pt-10 pb-0 lg:p-10 lg:pb-0"
+    class="flex flex-col items-center justify-center rounded-lg border border-white bg-gradient-to-b from-[#f5f6fa] to-[#c0c3d9] p-5 pt-10 pb-0 lg:p-10 lg:pb-0 shadow-lg shadow-black/60"
   >
     <h1 class="text-[2em] font-bold text-center">CADASTRO</h1>
 
@@ -11,27 +13,30 @@
     </span>
 
     <form
-      class="flex flex-col items-center justify-center gap-[15px] p-6"
+      class="flex flex-col items-center justify-center gap-[10px] p-6"
       (submit)="$event.preventDefault(); register()"
     >
+      <label class="text-md font-bold self-start mb-[-5px]" for="nome">Nome</label>
       <input
-        class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
+        class="box-border w-[250px] rounded-[10px] border border-[#808080] py-3.5 px-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
         [(ngModel)]="name"
         name="name"
         type="text"
         placeholder="Digite seu nome"
       />
 
+      <label class="text-md font-bold self-start mb-[-5px]" for="nome">E-mail</label>
       <input
-        class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
+        class="box-border w-[250px] rounded-[10px] border border-[#808080] py-3.5 px-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
         [(ngModel)]="email"
         name="email"
         type="email"
         placeholder="Digite seu email"
       />
 
+      <label class="text-md font-bold self-start mb-[-5px]" for="nome">Curso</label>
       <select
-        class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 bg-white"
+        class="box-border w-[250px] rounded-[10px] border border-[#808080] py-3.5 px-5 bg-white"
         [class.text-[#808080]]="!courseId()"
         [ngModel]="courseId()"
         (ngModelChange)="courseId.set($event)"
@@ -46,16 +51,55 @@
         }
       </select>
 
-      <input
-        class="box-border w-[250px] rounded-[10px] border border-[#808080] p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
-        [(ngModel)]="password"
-        name="password"
-        [type]="showPassword() ? 'text' : 'password'"
-        placeholder="Digite sua senha"
-      />
+      <label class="text-md font-bold self-start mb-[-5px]" for="nome">Senha</label>
+      <div class="relative w-[250px]">
+        <input
+          class="box-border w-full rounded-[10px] border border-[#808080] py-3.5 px-5 pr-[55px] focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
+          [(ngModel)]="password"
+          name="password"
+          [type]="showPassword() ? 'text' : 'password'"
+          placeholder="Digite sua senha"
+        />
+
+        @if (password()) {
+          <button
+            class="absolute right-[10px] top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center border-0 bg-transparent p-[5px]"
+            type="button"
+            (click)="showPassword.update((value) => !value)"
+          >
+            <span class="material-symbols-outlined text-[22px]">
+              {{ showPassword() ? 'visibility_off' : 'visibility' }}
+            </span>
+          </button>
+        }
+      </div>
+
+      <label class="text-md font-bold self-start" for="confirmPassword"> Confirmar senha </label>
+
+      <div class="relative w-[250px]">
+        <input
+          class="box-border w-full rounded-[10px] border border-[#808080] bg-white px-5 py-3.5 pr-[55px] focus:border-(--primary-color) focus:outline-none"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+          [type]="showPassword() ? 'text' : 'password'"
+          placeholder="Confirme sua senha"
+        />
+
+        @if (confirmPassword()) {
+          <button
+            class="absolute right-[10px] top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center border-0 bg-transparent p-[5px]"
+            type="button"
+            (click)="showPassword.update((value) => !value)"
+          >
+            <span class="material-symbols-outlined text-[22px]">
+              {{ showPassword() ? 'visibility_off' : 'visibility' }}
+            </span>
+          </button>
+        }
+      </div>
 
       <button
-        class="w-[250px] rounded-[10px] border-0 bg-(--primary-color) p-5 text-[15px] font-bold text-white enabled:lg:cursor-pointer enabled:lg:transition enabled:lg:duration-100 enabled:lg:hover:scale-[1.02] enabled:lg:hover:shadow-[0_5px_15px_rgba(0,0,0,0.35)] disabled:cursor-not-allowed disabled:bg-[#999]"
+        class="w-[250px] rounded-[10px] border-0 bg-(--primary-color) py-3.5 px-5 text-[15px] font-bold text-white enabled:lg:cursor-pointer enabled:lg:transition enabled:lg:duration-100 enabled:lg:hover:scale-[1.02] enabled:lg:hover:shadow-[0_5px_15px_rgba(0,0,0,0.35)] disabled:cursor-not-allowed disabled:bg-[#999]"
         type="submit"
         [disabled]="loading()"
       >
@@ -86,5 +130,8 @@
     </form>
   </div>
 
-  <p class="text-white text-center text-sm pt-4 font-sans">Ao se cadastrar, você concorda com os <span class="text-(--primary-color)">termos de uso</span> da plataforma</p>
+  <p class="text-white text-center text-sm pt-4 font-sans w-sm md:w-lg">
+    Ao se cadastrar, você concorda com os
+    <span class="text-(--primary-color)">termos de uso</span> da plataforma
+  </p>
 </div>
