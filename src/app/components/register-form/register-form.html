@@ -25,7 +25,7 @@
         placeholder="Digite seu nome"
       />
 
-      <label class="text-md font-bold self-start mb-[-5px]" for="nome">E-mail</label>
+      <label class="text-md font-bold self-start mb-[-5px]" for="email">E-mail</label>
       <input
         class="box-border w-[250px] rounded-[10px] border border-[#808080] py-3.5 px-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
         [(ngModel)]="email"
@@ -34,7 +34,7 @@
         placeholder="Digite seu email"
       />
 
-      <label class="text-md font-bold self-start mb-[-5px]" for="nome">Curso</label>
+      <label class="text-md font-bold self-start mb-[-5px]" for="curso">Curso</label>
       <select
         class="box-border w-[250px] rounded-[10px] border border-[#808080] py-3.5 px-5 bg-white"
         [class.text-[#808080]]="!courseId()"
@@ -51,7 +51,7 @@
         }
       </select>
 
-      <label class="text-md font-bold self-start mb-[-5px]" for="nome">Senha</label>
+      <label class="text-md font-bold self-start mb-[-5px]" for="senha">Senha</label>
       <div class="relative w-[250px]">
         <input
           class="box-border w-full rounded-[10px] border border-[#808080] py-3.5 px-5 pr-[55px] focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"

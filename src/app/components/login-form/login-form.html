@@ -1,24 +1,31 @@
-<div class="relative flex h-full flex-col items-center justify-center bg-gradient-to-t from-[#101080] to-[#020246]">
-  <img class="mb-[10px] max-w-[75%] lg:max-w-[20%]" src="logo.webp" alt="" />
+<div
+  class="relative flex h-full flex-col items-center justify-center bg-gradient-to-t from-[#101080] to-[#020246]"
+>
+  <img class="mb-[10px] max-w-[75%] lg:max-w-[20%] mt-[-100px]" src="logo.webp" alt="" />
 
-  <div class="flex flex-col items-center justify-center rounded-lg border border-white bg-gradient-to-b from-[#f5f6fa] to-[#c0c3d9] p-5 pt-10 pb-0 lg:p-10 lg:pb-0">
+  <div
+    class="flex flex-col items-center justify-center rounded-lg border border-white bg-gradient-to-b from-[#f5f6fa] to-[#c0c3d9] p-5 pt-10 pb-0 lg:p-10 lg:pb-0 shadow-lg shadow-black/60"
+  >
     <h1 class="text-[2em] text-black font-bold">LOGIN</h1>
 
     <form
-      class="flex flex-col items-center justify-center gap-[15px] p-6"
+      class="flex flex-col items-center justify-center gap-[10px] p-6"
       (submit)="$event.preventDefault(); login()"
     >
+
+      <label class="text-md font-bold self-start mb-[-5px]" for="email">E-mail</label>
       <input
-        class="box-border w-[250px] rounded-[10px] border border-gray-500 p-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
+        class="box-border w-[250px] rounded-[10px] border border-gray-500 py-3.5 px-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
         [(ngModel)]="email"
         name="email"
         type="email"
         placeholder="Digite seu email"
       />
 
-      <div class="relative w-[250px]">
+      <div class="relative w-[250px] mt-2 mb-5">
+        <label class="text-md font-bold self-start mb-[-5px]" for="senha">Senha</label>
         <input
-          class="box-border w-full rounded-[10px] border border-gray-500 p-5 pr-[55px] focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
+          class="box-border w-full rounded-[10px] border border-gray-500 py-3.5 px-5 pr-[55px] focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
           [(ngModel)]="password"
           name="password"
           [type]="showPassword() ? 'text' : 'password'"
@@ -39,7 +46,7 @@
       </div>
 
       <button
-        class="w-[250px] rounded-[10px] border-0 bg-(--primary-color) p-5 text-[15px] font-bold text-white enabled:lg:cursor-pointer enabled:lg:transition enabled:lg:duration-100 enabled:lg:hover:scale-[1.02] enabled:lg:hover:shadow-[0_5px_15px_rgba(0,0,0,0.35)] disabled:cursor-not-allowed disabled:bg-[#999]"
+        class="w-[250px] rounded-[10px] border-0 bg-(--primary-color) p-5 mb-2 text-[15px] font-bold text-white enabled:lg:cursor-pointer enabled:lg:transition enabled:lg:duration-100 enabled:lg:hover:scale-[1.02] enabled:lg:hover:shadow-[0_5px_15px_rgba(0,0,0,0.35)] disabled:cursor-not-allowed disabled:bg-[#999]"
         type="submit"
         [disabled]="loading()"
       >
