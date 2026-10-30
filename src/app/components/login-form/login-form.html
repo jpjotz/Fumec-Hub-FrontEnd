@@ -12,7 +12,6 @@
       class="flex flex-col items-center justify-center gap-[10px] p-6"
       (submit)="$event.preventDefault(); login()"
     >
-
       <label class="text-md font-bold self-start mb-[-5px]" for="email">E-mail</label>
       <input
         class="box-border w-[250px] rounded-[10px] border border-gray-500 py-3.5 px-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
@@ -22,27 +21,29 @@
         placeholder="Digite seu email"
       />
 
-      <div class="relative w-[250px] mt-2 mb-5">
+      <div class="w-[250px] mt-2 mb-5">
         <label class="text-md font-bold self-start mb-[-5px]" for="senha">Senha</label>
-        <input
-          class="box-border w-full rounded-[10px] border border-gray-500 py-3.5 px-5 pr-[55px] focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
-          [(ngModel)]="password"
-          name="password"
-          [type]="showPassword() ? 'text' : 'password'"
-          placeholder="Digite sua senha"
-        />
+        <div class="relative">
+          <input
+            class="box-border w-full rounded-[10px] border border-gray-500 py-3.5 px-5 pr-[55px] focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
+            [(ngModel)]="password"
+            name="password"
+            [type]="showPassword() ? 'text' : 'password'"
+            placeholder="Digite sua senha"
+          />
 
-        @if (password()) {
-          <button
-            class="absolute right-[10px] top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center border-0 bg-transparent p-[5px]"
-            type="button"
-            (click)="showPassword.update((value) => !value)"
-          >
-            <span class="material-symbols-outlined text-[22px]">
-              {{ showPassword() ? 'visibility_off' : 'visibility' }}
-            </span>
-          </button>
-        }
+          @if (password()) {
+            <button
+              class="absolute right-[10px] top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center border-0 bg-transparent p-[5px]"
+              type="button"
+              (click)="showPassword.update((value) => !value)"
+            >
+              <span class="material-symbols-outlined text-[22px]">
+                {{ showPassword() ? 'visibility_off' : 'visibility' }}
+              </span>
+            </button>
+          }
+        </div>
       </div>
 
       <button
