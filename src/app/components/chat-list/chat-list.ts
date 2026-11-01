@@ -8,9 +8,10 @@ import { Modal } from '../shared/modal/modal';
 import { AuthService } from '../../core/services/auth.service';
 import { WebSocketService } from '../../core/services/websocket.service';
 import { FriendshipService } from '../../core/services/friendship.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [ChatItem, AddFriend, FriendRequests, Modal],
+  imports: [ChatItem, AddFriend, FriendRequests, Modal, RouterLink],
   selector: 'app-chat-list',
   styleUrl: './chat-list.css',
   templateUrl: './chat-list.html',

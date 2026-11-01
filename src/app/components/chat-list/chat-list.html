@@ -3,6 +3,12 @@
     <h1 class="m-0 mb-1 text-[2em] leading-tight font-bold">Olá, {{ user()?.name }}</h1>
 
     <span class="text-[gray]"> Seu código de amizade: {{ user()?.friendCode }} </span>
+
+    <nav class="mt-5 mb-5 flex gap-3">
+      <a routerLink="/" class="text-blue-600 hover:underline">Conversas</a>
+      <a routerLink="/login" class="text-blue-600 hover:underline">Login</a>
+      <a routerLink="/register" class="text-blue-600 hover:underline">Cadastro</a>
+    </nav>
   </section>
 
   <section class="mb-[30px] flex gap-2.5">
