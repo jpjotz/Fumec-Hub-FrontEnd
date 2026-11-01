@@ -1,3 +1,4 @@
+
 import { Component, signal, output, input, effect } from '@angular/core';
 import { ChatService } from '../../core/services/chat.service';
 import { ChatItem } from '../chat-item/chat-item';
@@ -36,14 +37,18 @@ export class ChatList {
     effect(() => {
       const newChats = this.webSocketService.newChats();
 
-      if(newChats.length > 0) {
+      if (newChats.length > 0) {
         this.chats.update((chats) => [...chats, ...newChats]);
+        this.filteredChats.update((chats) => [...chats, ...newChats]);
         this.webSocketService.newChats.set([]);
       }
-    })
+    });
   }
 
   chats = signal<any[]>([]);
+  filteredChats = signal<any[]>([]);
+  searchTerm = signal('');
+
   user = input<any>();
 
   friendsView = signal('add');
@@ -57,12 +62,21 @@ export class ChatList {
     this.openChatSelected.emit(chat);
   }
 
+  searchChats() {
+    this.chatService.searchChats(this.searchTerm()).subscribe({
+      next: (chats) => {
+        this.filteredChats.set(chats);
+      },
+    });
+  }
+
   ngOnInit() {
     this.webSocketService.connect();
 
     this.chatService.getChats().subscribe({
       next: (data: any) => {
         this.chats.set(data.chats);
+        this.filteredChats.set(data.chats);
       },
     });
 

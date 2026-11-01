@@ -1,6 +1,14 @@
-import { Component, input, output, signal, effect, viewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  signal,
+  viewChild,
+  ElementRef,
+  effect,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { WebSocketService } from '../../core/services/websocket.service';
+import { ChatService } from '../../core/services/chat.service';
 
 @Component({
   imports: [FormsModule],
@@ -9,76 +17,51 @@ import { WebSocketService } from '../../core/services/websocket.service';
   templateUrl: './chat-window.html',
 })
 export class ChatWindow {
-  typing = signal(false);
-  private typingTimeout: any;
-  constructor(private webSocketService: WebSocketService) {
-    this.typing = this.webSocketService.typing;
-    this.onlineUsers = this.webSocketService.onlineUsers;
-
+  constructor(private chatService: ChatService) {
     effect(() => {
-      const messages = this.webSocketService.messages();
-      const user = this.user();
+      const chat = this.chat();
 
-      if (!user) {
-        return;
+      if (chat) {
+        this.loadMessages(chat.id);
       }
-
-      this.messages.set(
-        messages.map((message: any) => ({
-          text: message.content,
-          type: message.senderId === user.id ? 'sent' : 'received',
-        })),
-      );
-
-      this.isOtherUserOnline.set(this.onlineUsers().includes(this.chat().otherUser.id));
-
-      setTimeout(() => {
-        const container = this.messagesContainer();
-
-        if (container) {
-          container.nativeElement.scrollTop = container.nativeElement.scrollHeight;
-        }
-      });
     });
   }
 
-  messagesContainer = viewChild<ElementRef>('messagesContainer');
   chat = input<any>();
-  back = output<void>();
   user = input<any>();
+  back = output<void>();
+
   messages = signal<any[]>([]);
   message = signal('');
-  messageInput = viewChild<ElementRef>('messageInput');
-  onlineUsers = signal<string[]>([]);
+  typing = signal(false);
   isOtherUserOnline = signal(false);
+
+  messagesContainer = viewChild<ElementRef>('messagesContainer');
+  messageInput = viewChild<ElementRef>('messageInput');
+
+  loadMessages(chatId: string) {
+    this.chatService.getMessages(chatId).subscribe((messages: any) => {
+      this.messages.set(
+        messages.map((message: any) => ({
+          text: message.content,
+          type: message.senderId === 'current-user' ? 'sent' : 'received',
+        })),
+      );
+    });
+  }
 
   goBack() {
     this.back.emit();
-    this.webSocketService.leaveChat();
   }
 
   sendMessage() {
-    if (!this.message().trim()) {
-      return;
-    }
+    if (!this.message().trim()) return;
 
-    this.webSocketService.sendMessage(this.chat().id, this.message());
-    this.webSocketService.sendStopTyping(this.chat().id);
-
-    this.message.set('');
+    this.chatService.createMessage(this.chat().id, this.message()).subscribe(() => {
+      this.message.set('');
+      this.loadMessages(this.chat().id);
+    });
   }
 
-  sendTyping() {
-    this.webSocketService.sendTyping(this.chat().id);
-
-    clearTimeout(this.typingTimeout);
-
-    this.typingTimeout = setTimeout(() => {
-      this.webSocketService.sendStopTyping(this.chat().id);
-    }, 1000)
-  }
-
-  ngOnInit() {
-    this.webSocketService.connect(this.chat().id);
-  }
+  sendTyping() {}
 }

@@ -88,14 +88,27 @@
   }
 
   <section>
-    <h2 class="mb-[15px] text-[1.5em] font-bold select-none">Conversas</h2>
+  <h2 class="mb-[15px] text-[1.5em] font-bold select-none">Conversas</h2>
 
-    @if (chats().length === 0) {
-      <p class="text-center text-[gray] select-none">Nenhuma conversa encontrada.</p>
-    }
+  <input
+    type="text"
+    placeholder="Pesquisar conversa..."
+    class="mb-4 w-full rounded-lg border border-gray-300 p-3 outline-none focus:border-blue-500"
+    [value]="searchTerm()"
+    (input)="searchTerm.set($any($event.target).value); searchChats()"
+  />
 
-    @for (chat of chats(); track chat.id) {
-      <app-chat-item (openChat)="openChat($event)" [chat]="chat"></app-chat-item>
-    }
-  </section>
+  @if (filteredChats().length === 0) {
+    <p class="text-center text-[gray] select-none">
+      Nenhuma conversa encontrada.
+    </p>
+  }
+
+  @for (chat of filteredChats(); track chat.id) {
+    <app-chat-item
+      (openChat)="openChat($event)"
+      [chat]="chat"
+    ></app-chat-item>
+  }
+</section>
 </div>
