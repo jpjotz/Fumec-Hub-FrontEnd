@@ -1,5 +1,6 @@
-@import 'tailwindcss';
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import 'tailwindcss';
 
 :root {
   --primary-color: rgb(0, 98, 255);
@@ -12,4 +13,3 @@ body {
   margin: 0;
   font-family: 'Inter', sans-serif;
 }
-

@@ -1,11 +1,15 @@
+
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
+
+import { ChatInterface } from '../models/ChatInterface';
+import { MessageInterface } from '../models/MessageInterface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
-  private chats = [
+  private chats: ChatInterface[] = [
     {
       id: '1',
       otherUser: {
@@ -32,7 +36,7 @@ export class ChatService {
     },
   ];
 
-  private messages = [
+  private messages: MessageInterface[] = [
     { id: '1', chatId: '1', senderId: '101', content: 'Oi! Tudo bem?' },
     { id: '2', chatId: '1', senderId: 'current-user', content: 'Tudo sim!' },
     { id: '3', chatId: '2', senderId: '102', content: 'Vamos estudar juntos?' },
@@ -50,24 +54,22 @@ export class ChatService {
     return of(result);
   }
 
-  createChat(otherUser: any) {
-    const newChat = {
+  createChat(otherUser: ChatInterface['otherUser']) {
+    const newChat: ChatInterface = {
       id: crypto.randomUUID(),
       otherUser,
     };
 
     this.chats.push(newChat);
-
     return of(newChat);
   }
 
-  updateChat(id: string, otherUser: any) {
+  updateChat(id: string, otherUser: ChatInterface['otherUser']) {
     const index = this.chats.findIndex((chat) => chat.id === id);
 
     if (index === -1) return of(null);
 
     this.chats[index] = { ...this.chats[index], otherUser };
-
     return of(this.chats[index]);
   }
 
@@ -83,7 +85,7 @@ export class ChatService {
   }
 
   createMessage(chatId: string, content: string) {
-    const newMessage = {
+    const newMessage: MessageInterface = {
       id: crypto.randomUUID(),
       chatId,
       senderId: 'current-user',
@@ -91,7 +93,6 @@ export class ChatService {
     };
 
     this.messages.push(newMessage);
-
     return of(newMessage);
   }
 
@@ -101,13 +102,11 @@ export class ChatService {
     if (!message) return of(null);
 
     message.content = content;
-
     return of(message);
   }
 
   deleteMessage(id: string) {
     this.messages = this.messages.filter((message) => message.id !== id);
-
     return of(true);
   }
 }

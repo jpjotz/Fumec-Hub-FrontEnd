@@ -1,3 +1,4 @@
+
 import { Injectable, inject, signal } from '@angular/core';
 import { AuthService } from './auth.service';
 
@@ -19,7 +20,7 @@ export class WebSocketService {
     this.messages.set([]);
 
     const currentUser = this.authService.user();
-    const userId = currentUser?.id || currentUser?._id;
+    const userId = currentUser?.id;
 
     if (!userId) {
       console.warn('Usuário não autenticado no AuthService. Conexão do WS cancelada.');
@@ -81,8 +82,10 @@ export class WebSocketService {
           this.onlineUsers.update((users) => [...users, data.userId]);
         }
 
-        if(data.event === 'userOffline') {
-          this.onlineUsers.update(users => users.filter(userId => userId !== data.userId));
+        if (data.event === 'userOffline') {
+          this.onlineUsers.update((users) =>
+            users.filter((userId) => userId !== data.userId),
+          );
         }
       };
     } else if (this.socket.readyState === WebSocket.OPEN && chatId) {
@@ -103,7 +106,9 @@ export class WebSocketService {
   }
 
   clearNotifications(chatId: string) {
-    this.notifications.update((notifications) => notifications.filter((n) => n.chatId !== chatId));
+    this.notifications.update((notifications) =>
+      notifications.filter((n) => n.chatId !== chatId),
+    );
   }
 
   sendTyping(chatId: string) {

@@ -1,11 +1,14 @@
+
 import { Injectable, signal } from '@angular/core';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
+
+import { UserInterface } from '../models/UserInterface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  user = signal<any>({
+  user = signal<UserInterface | null>({
     id: 'current-user',
     name: 'João Pedro',
     email: 'joao@fumec.edu.br',
@@ -16,8 +19,8 @@ export class AuthService {
     },
   });
 
-  private users = [
-    this.user(),
+  private users: UserInterface[] = [
+    this.user()!,
     {
       id: '101',
       name: 'Ana Souza',
@@ -62,12 +65,15 @@ export class AuthService {
   }
 
   createUser(name: string, email: string, courseId: string) {
-    const newUser = {
+    const newUser: UserInterface = {
       id: crypto.randomUUID(),
       name,
       email,
       friendCode: name.toUpperCase().replace(/\s/g, '').slice(0, 8),
-      Course: { id: courseId, name: 'Curso mockado' },
+      Course: {
+        id: courseId,
+        name: 'Curso mockado',
+      },
     };
 
     this.users.push(newUser);
@@ -94,13 +100,24 @@ export class AuthService {
   }
 
   register(nome: string, email: string, password: string, courseId: string) {
-    const newUser = this.createUser(nome, email, courseId);
+    const newUser: UserInterface = {
+      id: crypto.randomUUID(),
+      name: nome,
+      email,
+      friendCode: nome.toUpperCase().replace(/\s/g, '').slice(0, 8),
+      Course: {
+        id: courseId,
+        name: 'Curso mockado',
+      },
+    };
 
+    this.users.push(newUser);
     this.user.set(newUser);
-    return newUser;
+
+    return of(newUser);
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string): Observable<UserInterface | null> {
     const foundUser = this.users.find((user) => user.email === email);
 
     if (!foundUser) return of(null);
