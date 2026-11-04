@@ -35,14 +35,17 @@ export class ChatList {
     effect(() => {
       const newChats = this.webSocketService.newChats();
 
-      if(newChats.length > 0) {
+      if (newChats.length > 0) {
         this.chats.update((chats) => [...chats, ...newChats]);
         this.webSocketService.newChats.set([]);
       }
-    })
+    });
   }
 
   chats = signal<any[]>([]);
+  filteredChats = signal<any[]>([]);
+  searchValue = signal('');
+
   user = input<any>();
 
   friendsView = signal('add');
@@ -56,12 +59,19 @@ export class ChatList {
     this.openChatSelected.emit(chat);
   }
 
+  searchContact(term: string) {
+    this.filteredChats.set(
+      this.chats().filter((chat) => chat.otherUser.name.toLowerCase().includes(term.toLowerCase())),
+    );
+  }
+
   ngOnInit() {
     this.webSocketService.connect();
 
     this.chatService.getChats().subscribe({
       next: (data: any) => {
         this.chats.set(data.chats);
+        this.filteredChats.set(data.chats);
       },
     });
 
