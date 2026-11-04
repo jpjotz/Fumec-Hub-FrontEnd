@@ -2,20 +2,16 @@
   <app-chat-list
     [user]="user()"
     [class.hidden]="selectedChat() !== null"
-    class="h-full w-full shrink-0 overflow-y-auto md:!block md:w-[350px] md:border-r md:border-gray-200"
-    (openChatSelected)="selectedChat.set($event)"
+    class="h-full w-full shrink-0 overflow-y-auto md:!block md:w-[350px]"
+    (openChatSelected)="openChat($event)"
   ></app-chat-list>
 
   @if (selectedChat()) {
     <app-chat-window
       [chat]="selectedChat()"
       [user]="user()"
-      class="h-full min-w-0 flex-1"
-      (back)="selectedChat.set(null)"
+      class="h-full w-full min-w-0 flex-1"
+      (back)="goBack()"
     ></app-chat-window>
-  } @else {
-    <div class="hidden flex-1 items-center justify-center bg-gray-50 md:flex">
-      <p class="text-gray-400">Selecione uma conversa para começar.</p>
-    </div>
   }
 </div>
