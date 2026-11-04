@@ -105,15 +105,25 @@ development → main
 
 ### Front-End
 
-<img src="https://skillicons.dev/icons?i=html,css,angular,ts,materialui,tailwindcss" title="HTML5, CSS3, Angular, TypeScript, MaterialUI e TailwindCSS" />
+<div>
+  <img src="https://skillicons.dev/icons?i=html,css,angular,ts,materialui,tailwindcss" title="HTML5, CSS3, Angular, TypeScript, MaterialUI e TailwindCSS" />
+  <img src="https://skills.syvixor.com/api/icons?i=websocket&perline=12&radius=40" title="Web Sockets" />
+</div>
 
 ### Back-End
 
-<img src="https://skillicons.dev/icons?i=nodejs,express,sequelize" title="Node.js, Express.js, Sequelize" />
+<div>
+  <img src="https://skillicons.dev/icons?i=nodejs,express,sequelize" title="Node.js, Express.js, Sequelize" />
+  <img src="https://skills.syvixor.com/api/icons?i=websocket&perline=12&radius=40" title="Web Sockets" />
+</div>
 
 ### Banco de dados
 
 <img src="https://skillicons.dev/icons?i=postgres,supabase" title="PostgreSQL e Supabase" />
+
+## Design
+
+<img src="https://skillicons.dev/icons?i=figma" title="Figma" />
 
 ## Autenticação e comunicação
 
@@ -122,9 +132,6 @@ development → main
 - WebSocket — comunicação em tempo real
 - REST API — comunicação entre frontend e backend
 
-## Design
-
-<img src="https://skillicons.dev/icons?i=figma" title="Figma" />
 
 
 ## Tools
