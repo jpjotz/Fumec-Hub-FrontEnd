@@ -2,6 +2,10 @@ import { Component, input, output, signal, effect, viewChild, ElementRef } from 
 import { FormsModule } from '@angular/forms';
 import { WebSocketService } from '../../core/services/websocket.service';
 
+import { ChatInterface } from '../../models/ChatInterface';
+import { UserInterface } from '../../models/UserInterface';
+import { MessageInterface } from '../../models/MessageInterface';
+
 @Component({
   imports: [FormsModule],
   selector: 'app-chat-window',
@@ -24,7 +28,7 @@ export class ChatWindow {
       }
 
       this.messages.set(
-        messages.map((message: any) => ({
+        messages.map((message: MessageInterface) => ({
           text: message.content,
           type: message.senderId === user.id ? 'sent' : 'received',
         })),
@@ -43,9 +47,9 @@ export class ChatWindow {
   }
 
   messagesContainer = viewChild<ElementRef>('messagesContainer');
-  chat = input<any>();
+  chat = input.required<ChatInterface>();
   back = output<void>();
-  user = input<any>();
+  user = input.required<UserInterface>();
   messages = signal<any[]>([]);
   message = signal('');
   messageInput = viewChild<ElementRef>('messageInput');

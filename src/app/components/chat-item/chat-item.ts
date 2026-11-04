@@ -1,5 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { WebSocketService } from '../../core/services/websocket.service';
+import { ChatInterface } from '../../models/ChatInterface';
 
 @Component({
   imports: [],
@@ -9,14 +10,14 @@ import { WebSocketService } from '../../core/services/websocket.service';
 })
 export class ChatItem {
   notifications;
-  
+
   constructor(private webSocketService: WebSocketService) {
     this.notifications = this.webSocketService.notifications;
   }
 
-  chat = input<any>();
+  chat = input.required<ChatInterface>();
 
-  openChat = output<any>();
+  openChat = output<ChatInterface>();
 
   selectChat() {
     this.webSocketService.clearNotifications(this.chat().id);

@@ -9,6 +9,9 @@ import { AuthService } from '../../core/services/auth.service';
 import { WebSocketService } from '../../core/services/websocket.service';
 import { FriendshipService } from '../../core/services/friendship.service';
 
+import { ChatInterface } from '../../models/ChatInterface';
+import { UserInterface } from '../../models/UserInterface';
+
 @Component({
   imports: [ChatItem, AddFriend, FriendRequests, Modal],
   selector: 'app-chat-list',
@@ -37,25 +40,26 @@ export class ChatList {
 
       if (newChats.length > 0) {
         this.chats.update((chats) => [...chats, ...newChats]);
+        this.filteredChats.update((chats) => [...chats, ...newChats]);
         this.webSocketService.newChats.set([]);
       }
     });
   }
 
-  chats = signal<any[]>([]);
-  filteredChats = signal<any[]>([]);
+  chats = signal<ChatInterface[]>([]);
+  filteredChats = signal<ChatInterface[]>([]);
   searchValue = signal('');
 
-  user = input<any>();
+  user = input<UserInterface>();
 
   friendsView = signal('add');
   showFriends = signal(false);
 
-  openChatSelected = output<any>();
+  openChatSelected = output<ChatInterface>();
 
   friendRequestCount = signal(0);
 
-  openChat(chat: any) {
+  openChat(chat: ChatInterface) {
     this.openChatSelected.emit(chat);
   }
 
