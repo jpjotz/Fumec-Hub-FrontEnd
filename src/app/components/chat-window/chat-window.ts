@@ -58,7 +58,7 @@ export class ChatWindow {
 
   goBack() {
     this.back.emit();
-    this.webSocketService.leaveChat();
+    // this.webSocketService.leaveChat();
   }
 
   sendMessage() {

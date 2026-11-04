@@ -40,7 +40,7 @@ export class LoginForm {
         this.password.set('');
         this.loading.set(false);
 
-        this.router.navigate(['/']);
+        this.router.navigate(['/'], { replaceUrl: true });
       },
 
       error: (error) => {
