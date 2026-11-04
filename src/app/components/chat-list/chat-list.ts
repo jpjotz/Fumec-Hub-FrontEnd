@@ -9,6 +9,9 @@ import { AuthService } from '../../core/services/auth.service';
 import { WebSocketService } from '../../core/services/websocket.service';
 import { FriendshipService } from '../../core/services/friendship.service';
 
+import { ChatInterface } from '../../models/ChatInterface';
+import { UserInterface } from '../../models/UserInterface';
+
 @Component({
   imports: [ChatItem, AddFriend, FriendRequests, Modal],
   selector: 'app-chat-list',
@@ -35,25 +38,35 @@ export class ChatList {
     effect(() => {
       const newChats = this.webSocketService.newChats();
 
-      if(newChats.length > 0) {
+      if (newChats.length > 0) {
         this.chats.update((chats) => [...chats, ...newChats]);
+        this.filteredChats.update((chats) => [...chats, ...newChats]);
         this.webSocketService.newChats.set([]);
       }
-    })
+    });
   }
 
-  chats = signal<any[]>([]);
-  user = input<any>();
+  chats = signal<ChatInterface[]>([]);
+  filteredChats = signal<ChatInterface[]>([]);
+  searchValue = signal('');
+
+  user = input<UserInterface>();
 
   friendsView = signal('add');
   showFriends = signal(false);
 
-  openChatSelected = output<any>();
+  openChatSelected = output<ChatInterface>();
 
   friendRequestCount = signal(0);
 
-  openChat(chat: any) {
+  openChat(chat: ChatInterface) {
     this.openChatSelected.emit(chat);
+  }
+
+  searchContact(term: string) {
+    this.filteredChats.set(
+      this.chats().filter((chat) => chat.otherUser.name.toLowerCase().includes(term.toLowerCase())),
+    );
   }
 
   ngOnInit() {
@@ -62,6 +75,7 @@ export class ChatList {
     this.chatService.getChats().subscribe({
       next: (data: any) => {
         this.chats.set(data.chats);
+        this.filteredChats.set(data.chats);
       },
     });
 

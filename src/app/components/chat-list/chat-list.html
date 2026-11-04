@@ -24,7 +24,7 @@
     </div>
 
     <button
-      class="cursor-pointer rounded-lg border-0 bg-[rgb(255,206,206)] px-[15px] py-2.5 text-[red] select-none"
+      class="cursor-pointer flex items-center justify-center rounded-lg border-0 bg-[rgb(255,206,206)] px-[15px] py-4 text-[red] select-none"
       (click)="logout()"
     >
       <span class="material-symbols-outlined">logout</span>
@@ -84,11 +84,26 @@
   <section>
     <h2 class="mb-[15px] text-[1.5em] font-bold select-none">Conversas</h2>
 
-    @if (chats().length === 0) {
+    <div class="relative mb-5 md:w-100">
+      <span
+        class="material-symbols-outlined absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"
+      >
+        search
+      </span>
+
+      <input
+        type="text"
+        (input)="searchContact($any($event.target).value)"
+        placeholder="Pesquisar contatos..."
+        class="w-full rounded-lg border border-gray-300 bg-transparent py-3 pr-3 pl-10 text-sm outline-none transition focus:border-(--primary-color)"
+      />
+    </div>
+
+    @if (filteredChats().length === 0) {
       <p class="text-center text-[gray] select-none">Nenhuma conversa encontrada.</p>
     }
 
-    @for (chat of chats(); track chat.id) {
+    @for (chat of filteredChats(); track chat.id) {
       <app-chat-item (openChat)="openChat($event)" [chat]="chat"></app-chat-item>
     }
   </section>
