@@ -1,8 +1,1 @@
-@if (!showRegister()) {
-  <app-login-form (goToRegister)="showRegister.set(true)"></app-login-form>
-}
-
-@if (showRegister()) {
-  <app-register-form (goToLogin)="showRegister.set(false)"></app-register-form>
-}
-
+<app-login-form (goToRegister)="router.navigate(['/register'])"></app-login-form>
