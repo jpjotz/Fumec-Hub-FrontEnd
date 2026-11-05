@@ -3,22 +3,20 @@ import { AuthService } from '../services/auth.service';
 import { inject } from '@angular/core';
 import { map, catchError, of, switchMap } from 'rxjs';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
   return authService.getMe().pipe(
-    map(() => true),
+    switchMap((user) => {
+      if (user) return of(true);
 
-    catchError(() => {
       return authService.refresh().pipe(
         switchMap(() => authService.getMe()),
-        map(() => true),
-        catchError(() => {
-          router.navigate(['/login']);
-          return of(false);
-        }),
+        map((user) => !!user),
       );
     }),
+    map((authenticated) => (authenticated ? true : router.createUrlTree(['/login']))),
+    catchError(() => of(router.createUrlTree(['/login']))),
   );
 };

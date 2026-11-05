@@ -1,4 +1,3 @@
-
 import { Injectable, signal } from '@angular/core';
 import { of, Observable } from 'rxjs';
 
@@ -8,19 +7,19 @@ import { UserInterface } from '../models/UserInterface';
   providedIn: 'root',
 })
 export class AuthService {
-  user = signal<UserInterface | null>({
-    id: 'current-user',
-    name: 'João Pedro',
-    email: 'joao@fumec.edu.br',
-    friendCode: 'JOAO123',
-    Course: {
-      id: '1',
-      name: 'Ciência da Computação',
-    },
-  });
+  user = signal<UserInterface | null>(null);
 
   private users: UserInterface[] = [
-    this.user()!,
+    {
+      id: 'current-user',
+      name: 'João Pedro',
+      email: 'joao@fumec.edu.br',
+      friendCode: 'JOAO123',
+      Course: {
+        id: '1',
+        name: 'Ciência da Computação',
+      },
+    },
     {
       id: '101',
       name: 'Ana Souza',
