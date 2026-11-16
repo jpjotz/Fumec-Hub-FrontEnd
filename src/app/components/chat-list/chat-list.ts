@@ -54,10 +54,12 @@ export class ChatList {
 
   friendsView = signal('add');
   showFriends = signal(false);
+  showProfile = signal(false);
 
   openChatSelected = output<ChatInterface>();
 
   friendRequestCount = signal(0);
+
 
   openChat(chat: ChatInterface) {
     this.openChatSelected.emit(chat);

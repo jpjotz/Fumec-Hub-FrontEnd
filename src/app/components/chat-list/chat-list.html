@@ -1,6 +1,11 @@
 <div class="p-5">
   <section class="mt-[15px] mb-5">
-    <h1 class="m-0 mb-1 text-[2em] leading-tight font-bold">Olá, {{ user()?.name }}</h1>
+    <div class="flex gap-2 items-center">
+      <button class="cursor-pointer" title="Editar Perfil" (click)="showProfile.set(true)">
+        <span class="material-symbols-outlined !text-4xl text-[color:var(--primary-color)]">account_circle</span>
+      </button>
+      <h1 class="m-0 mb-1 text-[2em] leading-tight font-bold">Olá, {{ user()?.name }}</h1>
+    </div>
 
     <span class="text-[gray]"> Seu código de amizade: {{ user()?.friendCode }} </span>
   </section>
@@ -79,6 +84,10 @@
         ></app-friend-requests>
       }
     </app-modal>
+  }
+
+  @if (showProfile()) {
+    <app-modal title="Perfil" (close)="showProfile.set(false)"></app-modal>
   }
 
   <section>
