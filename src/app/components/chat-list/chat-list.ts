@@ -56,10 +56,22 @@ export class ChatList {
   showFriends = signal(false);
   showProfile = signal(false);
 
+  editingName = signal(false);
+  newName = signal('');
+
   openChatSelected = output<ChatInterface>();
 
   friendRequestCount = signal(0);
 
+  editName() {
+    this.newName.set(this.user()?.name || '');
+    this.editingName.set(true);
+  }
+
+  cancelEditName() {
+    this.newName.set('');
+    this.editingName.set(false);
+  }
 
   openChat(chat: ChatInterface) {
     this.openChatSelected.emit(chat);

@@ -2,7 +2,9 @@
   <section class="mt-[15px] mb-5">
     <div class="flex gap-2 items-center">
       <button class="cursor-pointer" title="Editar Perfil" (click)="showProfile.set(true)">
-        <span class="material-symbols-outlined !text-4xl text-[color:var(--primary-color)]">account_circle</span>
+        <span class="material-symbols-outlined !text-4xl text-[color:var(--primary-color)]"
+          >account_circle</span
+        >
       </button>
       <h1 class="m-0 mb-1 text-[2em] leading-tight font-bold">Olá, {{ user()?.name }}</h1>
     </div>
@@ -37,7 +39,7 @@
   </section>
 
   @if (showFriends()) {
-    <app-modal title="Amizades" (close)="showFriends.set(false)">
+    <app-modal titulo="Amizades" (close)="showFriends.set(false)">
       <nav class="mb-5 flex gap-5 border-b border-[#ddd]">
         <span
           class="cursor-pointer p-2.5 select-none"
@@ -87,7 +89,41 @@
   }
 
   @if (showProfile()) {
-    <app-modal title="Perfil" (close)="showProfile.set(false)"></app-modal>
+    <app-modal titulo="Meu Perfil" (close)="showProfile.set(false); cancelEditName()">
+      <form class="flex flex-col">
+        <label class="font-bold mb-1.5" for="name">Nome</label>
+
+        <div class="flex flex-row items-center gap-2">
+          <input #nameInput
+            class="border-1 disabled:cursor-not-allowed border-gray-500 p-2.5 text-gray-700 rounded"
+            [size]="(user()?.name?.length || 0) + 2"
+            type="text"
+            [value]="user()?.name"
+            [disabled]="!editingName()"
+            (input)="newName.set(nameInput.value)"
+          />
+          @if (!editingName()) {
+            <button type="button" class="cursor-pointer" (click)="editName()">
+              <span class="material-symbols-outlined">edit</span>
+            </button>
+          } @else {
+            <div class="flex flex-row gap-2">
+              <button type="button"
+                class="flex cursor-pointer justify-center rounded-[5px] border-0 bg-[rgb(127,253,127)] p-2.5 text-[green]"
+              >
+                <span class="material-symbols-outlined">check</span>
+              </button>
+
+              <button type="button"
+                class="flex cursor-pointer justify-center rounded-[5px] border-0 bg-[rgb(255,188,188)] p-2.5 text-[red]" (click)="cancelEditName()"
+              >
+                <span class="material-symbols-outlined">close_small</span>
+              </button>
+            </div>
+          }
+        </div>
+      </form>
+    </app-modal>
   }
 
   <section>
