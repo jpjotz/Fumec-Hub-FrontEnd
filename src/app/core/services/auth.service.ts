@@ -36,5 +36,7 @@ export class AuthService {
     return this.http.post(this.apiUrl + 'auth/logout', {}, { withCredentials: true });
   }
 
-  
+  editProfile(name: string) {
+    return this.http.patch(this.apiUrl + 'users/me', { name }, {withCredentials: true} );
+  }
 }

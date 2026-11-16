@@ -73,6 +73,20 @@ export class ChatList {
     this.editingName.set(false);
   }
 
+  saveName() {
+    this.authService.editProfile(this.newName()).subscribe({
+      next: () => {
+
+        this.authService.user.update((user) => ({
+          ...user,
+          name: this.newName()
+        }));
+
+        this.editingName.set(false)
+      }
+    });
+  }
+
   openChat(chat: ChatInterface) {
     this.openChatSelected.emit(chat);
   }
