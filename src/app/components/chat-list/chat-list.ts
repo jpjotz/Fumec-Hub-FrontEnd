@@ -76,6 +76,13 @@ export class ChatList {
 
   loading = signal(false);
 
+  deleteAccountInput = signal(false);
+  deleteAccountPassword = signal('');
+  seePassword = signal(false);
+  deleteStatusMsg = signal('');
+  deleteStatus = signal(false);
+  deleteLoading = signal(false);
+
   verifyNewPasswordInputs() {
     if (this.newPassword() !== this.confirmNewPassword()) {
       this.statusMessage.set('As senhas não coincidem');
@@ -120,9 +127,29 @@ export class ChatList {
           ...user,
           name: this.newName()
         }));
-        this.editingName.set(false)
+        this.editingName.set(false);
       }
     });
+  }
+
+  deleteAccount() {
+    this.deleteLoading.set(true);
+
+    this.authService.deleteAccount(this.deleteAccountPassword()).subscribe({
+      next: () => {
+        this.deleteStatusMsg.set('Conta deletada com sucesso!');
+        this.deleteLoading.set(false);
+        this.deleteStatus.set(true);
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000);
+      },
+
+      error: (err) => {
+        this.deleteStatusMsg.set(err.error.message);
+        this.deleteLoading.set(false);
+      }
+    })
   }
 
 
