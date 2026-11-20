@@ -14,6 +14,7 @@ export class WebSocketService {
   newChats = signal<any[]>([]);
   typing = signal(false);
   onlineUsers = signal<string[]>([]);
+  friendshipDeleted = signal<string | null>(null);
 
   connect(chatId?: string) {
     this.messages.set([]);
@@ -81,8 +82,12 @@ export class WebSocketService {
           this.onlineUsers.update((users) => [...users, data.userId]);
         }
 
-        if(data.event === 'userOffline') {
-          this.onlineUsers.update(users => users.filter(userId => userId !== data.userId));
+        if (data.event === 'userOffline') {
+          this.onlineUsers.update((users) => users.filter((userId) => userId !== data.userId));
+        }
+
+        if (data.event === 'friendshipDeleted') {
+          this.friendshipDeleted.set(data.friendshipId);
         }
       };
     } else if (this.socket.readyState === WebSocket.OPEN && chatId) {

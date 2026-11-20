@@ -5,6 +5,7 @@ import { WebSocketService } from '../../core/services/websocket.service';
 import { ChatInterface } from '../../models/ChatInterface';
 import { UserInterface } from '../../models/UserInterface';
 import { MessageInterface } from '../../models/MessageInterface';
+import { FriendshipService } from '../../core/services/friendship.service';
 
 @Component({
   imports: [FormsModule],
@@ -15,7 +16,10 @@ import { MessageInterface } from '../../models/MessageInterface';
 export class ChatWindow {
   typing = signal(false);
   private typingTimeout: any;
-  constructor(private webSocketService: WebSocketService) {
+  constructor(
+    private webSocketService: WebSocketService,
+    private friendshipService: FriendshipService,
+  ) {
     this.typing = this.webSocketService.typing;
     this.onlineUsers = this.webSocketService.onlineUsers;
 
@@ -48,7 +52,7 @@ export class ChatWindow {
 
   messagesContainer = viewChild<ElementRef>('messagesContainer');
   chat = input.required<ChatInterface>();
-  back = output<void>();
+  back = output<string>();
   user = input.required<UserInterface>();
   messages = signal<any[]>([]);
   message = signal('');
@@ -56,8 +60,10 @@ export class ChatWindow {
   onlineUsers = signal<string[]>([]);
   isOtherUserOnline = signal(false);
 
+  showChatMenu = signal(false);
+
   goBack() {
-    this.back.emit();
+    this.back.emit(this.chat().friendshipId);
     // this.webSocketService.leaveChat();
   }
 
@@ -79,7 +85,18 @@ export class ChatWindow {
 
     this.typingTimeout = setTimeout(() => {
       this.webSocketService.sendStopTyping(this.chat().id);
-    }, 1000)
+    }, 1000);
+  }
+
+  deleteFriendship() {
+    this.friendshipService.deleteFriendship(this.chat().friendshipId).subscribe({
+      next: () => {
+        this.back.emit(this.chat().friendshipId);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
   }
 
   ngOnInit() {

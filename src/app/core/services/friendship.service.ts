@@ -24,4 +24,8 @@ export class FriendshipService {
   rejectFriendship(friendshipId: string) {
     return this.http.patch(this.apiUrl + 'friends/reject/' + friendshipId, {}, {withCredentials: true});
   }
+
+  deleteFriendship(friendshipId: string) {
+    return this.http.delete(this.apiUrl + 'friends/' + friendshipId, {withCredentials: true});
+  }
 }

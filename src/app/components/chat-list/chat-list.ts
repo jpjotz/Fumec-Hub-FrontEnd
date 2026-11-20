@@ -44,6 +44,20 @@ export class ChatList {
         this.webSocketService.newChats.set([]);
       }
     });
+
+    effect(() => {
+      const friendshipId = this.webSocketService.friendshipDeleted();
+
+      if (!friendshipId) return;
+
+      this.chats.update((chats) => chats.filter((chat) => chat.friendshipId !== friendshipId));
+
+      this.filteredChats.update((chats) =>
+        chats.filter((chat) => chat.friendshipId !== friendshipId),
+      );
+
+      this.webSocketService.friendshipDeleted.set(null);
+    });
   }
 
   chats = signal<ChatInterface[]>([]);
@@ -93,7 +107,7 @@ export class ChatList {
 
     this.authService.changePassword(this.currentPassword(), this.newPassword()).subscribe({
       next: (data: any) => {
-        this.statusMessage.set(data.message + " Efetue novamente o login.");
+        this.statusMessage.set(data.message + ' Efetue novamente o login.');
         this.passwordChangeSuccess.set(true);
         this.loading.set(false);
         this.authService.logout();
@@ -106,8 +120,8 @@ export class ChatList {
         this.passwordChangeSuccess.set(false);
         this.statusMessage.set(err.error.message);
         this.loading.set(false);
-      }
-    })
+      },
+    });
   }
 
   editName() {
@@ -125,10 +139,10 @@ export class ChatList {
       next: () => {
         this.authService.user.update((user) => ({
           ...user,
-          name: this.newName()
+          name: this.newName(),
         }));
         this.editingName.set(false);
-      }
+      },
     });
   }
 
@@ -148,10 +162,9 @@ export class ChatList {
       error: (err) => {
         this.deleteStatusMsg.set(err.error.message);
         this.deleteLoading.set(false);
-      }
-    })
+      },
+    });
   }
-
 
   openChat(chat: ChatInterface) {
     this.openChatSelected.emit(chat);
@@ -168,6 +181,7 @@ export class ChatList {
 
     this.chatService.getChats().subscribe({
       next: (data: any) => {
+        console.log('CHATS:', data.chats);
         this.chats.set(data.chats);
         this.filteredChats.set(data.chats);
       },

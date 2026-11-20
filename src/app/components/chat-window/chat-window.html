@@ -1,35 +1,64 @@
 <div class="flex h-full flex-col">
-  <header class="flex items-center gap-[15px] border-b border-[#ddd] p-[15px]">
-    <button
-      class="flex cursor-pointer items-center justify-center border-0 bg-transparent p-[5px] text-[rgb(0,98,255)] select-none md:hidden"
-      (click)="goBack()"
-    >
-      <span class="material-symbols-outlined text-[25px]">arrow_back</span>
-    </button>
+  <header class="flex items-center justify-between gap-[15px] border-b border-[#ddd] p-[15px]">
+    <div class="flex min-w-0 items-center gap-[15px]">
+      <button
+        class="flex cursor-pointer items-center justify-center border-0 bg-transparent p-[5px] text-[rgb(0,98,255)] select-none md:hidden"
+        (click)="goBack()"
+      >
+        <span class="material-symbols-outlined text-[25px]">arrow_back</span>
+      </button>
 
-    <div class="flex flex-col items-start gap-[5px]">
-      <div class="flex items-center gap-2 text-center">
-        <h2 class="m-0 text-[18px] font-bold">{{ chat().otherUser.name }}</h2>
+      <div class="flex min-w-0 flex-col items-start gap-[5px]">
+        <div class="flex items-center gap-2 text-center">
+          <h2 class="m-0 text-[18px] font-bold">{{ chat().otherUser.name }}</h2>
 
-        <div class="mt-0.5 h-1 w-1 rounded-full bg-[gray]"></div>
+          <div class="mt-0.5 h-1 w-1 rounded-full bg-[gray]"></div>
 
-        <span class="mt-0.5 text-[13px] text-[gray]">
-          {{ chat().otherUser.Course?.name }}
-        </span>
+          <span class="mt-0.5 text-[13px] text-[gray]">
+            {{ chat().otherUser.Course?.name }}
+          </span>
+        </div>
+
+        <div class="flex items-center gap-[5px] text-[14px]">
+          <span
+            class="inline-block h-2 w-2 rounded-full bg-[gray]"
+            [class.bg-[green]]="isOtherUserOnline()"
+          ></span>
+
+          @if (isOtherUserOnline()) {
+            <span class="text-[green]">Online</span>
+          } @else {
+            <span>Offline</span>
+          }
+        </div>
       </div>
+    </div>
 
-      <div class="flex items-center gap-[5px] text-[14px]">
-        <span
-          class="inline-block h-2 w-2 rounded-full bg-[gray]"
-          [class.bg-[green]]="isOtherUserOnline()"
-        ></span>
+    <div class="relative">
+      <button
+        type="button"
+        title="Mais opções"
+        class="flex cursor-pointer items-center justify-center rounded-full p-2 hover:bg-gray-100"
+        (click)="showChatMenu.set(!showChatMenu())"
+      >
+        <span class="material-symbols-outlined !text-[var(--primary-color)]">more_vert</span>
+      </button>
 
-        @if (isOtherUserOnline()) {
-          <span class="text-[green]">Online</span>
-        } @else {
-          <span>Offline</span>
-        }
-      </div>
+      @if (showChatMenu()) {
+        <div
+          class="absolute right-0 top-full z-50 mt-1 min-w-44 rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
+        >
+          <button
+            type="button"
+            (click)="deleteFriendship()"
+            class="flex w-full cursor-pointer items-center gap-2 px-4 py-3 text-left text-sm text-red-600 hover:bg-red-50"
+            (click)="showChatMenu.set(false)"
+          >
+            <span class="material-symbols-outlined">person_remove</span>
+            Excluir amizade
+          </button>
+        </div>
+      }
     </div>
   </header>
 
@@ -38,9 +67,7 @@
     class="flex flex-1 flex-col gap-2.5 overflow-y-auto scroll-smooth p-[15px]"
   >
     @if (messages().length === 0) {
-      <p class="m-0 self-center text-center text-[gray] select-none">
-        Nenhuma mensagem enviada.
-      </p>
+      <p class="m-0 self-center text-center text-[gray] select-none">Nenhuma mensagem enviada.</p>
     } @else {
       @for (message of messages(); track $index) {
         <p
@@ -58,9 +85,7 @@
   </main>
 
   @if (typing()) {
-    <span class="mb-2.5 ml-2.5 text-[gray]">
-      {{ chat().otherUser.name }} está digitando...
-    </span>
+    <span class="mb-2.5 ml-2.5 text-[gray]"> {{ chat().otherUser.name }} está digitando... </span>
   }
 
   <footer class="flex gap-2.5 border-t border-[#ddd] p-2.5">

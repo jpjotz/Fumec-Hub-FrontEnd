@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, effect } from '@angular/core';
 import { ChatList } from '../../components/chat-list/chat-list';
 import { ChatWindow } from '../../components/chat-window/chat-window';
 import { AuthService } from '../../core/services/auth.service';
 import { Location } from '@angular/common';
+import { WebSocketService } from '../../core/services/websocket.service';
 
 @Component({
   imports: [ChatList, ChatWindow],
@@ -15,6 +16,7 @@ export class Chat {
   user = signal<any>(null);
 
   constructor(
+    private webSocketService: WebSocketService,
     private authService: AuthService,
     private location: Location,
   ) {
@@ -25,6 +27,14 @@ export class Chat {
         this.selectedChat.set(null);
       }
     });
+
+    effect(() => {
+      const friendshipId = this.webSocketService.friendshipDeleted();
+
+      if (friendshipId && this.selectedChat()?.friendshipId === friendshipId) {
+        this.selectedChat.set(null);
+      }
+    });
   }
 
   openChat(chat: any) {
@@ -32,7 +42,7 @@ export class Chat {
     this.selectedChat.set(chat);
   }
 
-  goBack() {
+  goBack(friendshipId?: string) {
     this.location.back();
   }
 }
