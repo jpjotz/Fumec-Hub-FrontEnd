@@ -39,4 +39,8 @@ export class AuthService {
   editProfile(name: string) {
     return this.http.patch(this.apiUrl + 'users/me', { name }, {withCredentials: true} );
   }
+
+  changePassword(currentPassword: string, newPassword: string) {
+    return this.http.patch(this.apiUrl + 'users/me/password', {currentPassword, newPassword}, {withCredentials: true});
+  }
 }

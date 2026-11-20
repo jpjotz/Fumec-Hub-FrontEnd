@@ -11,4 +11,6 @@ export class Modal {
   close = output<void>();
 
   titulo = input<string>();
+
+  subtitulo = input<string>();
 }

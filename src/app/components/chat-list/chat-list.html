@@ -89,39 +89,201 @@
   }
 
   @if (showProfile()) {
-    <app-modal titulo="Meu Perfil" (close)="showProfile.set(false); cancelEditName()">
+    <app-modal
+      titulo="Meu Perfil"
+      subtitulo="Gerencie suas informações pessoais e configurações"
+      (close)="showProfile.set(false); cancelEditName()"
+    >
       <form class="flex flex-col">
-        <label class="font-bold mb-1.5" for="name">Nome</label>
+        <section id="personal-info" class="flex flex-col mt-[-5px]">
+          <div class="flex flex-row items-center gap-1.5">
+            <span class="material-symbols-outlined !text-2xl"> person </span>
+            <h1 class="font-bold text-lg underline">Informações Pessoais</h1>
+          </div>
 
-        <div class="flex flex-row items-center gap-2">
-          <input #nameInput
-            class="border-1 disabled:cursor-not-allowed border-gray-500 p-2.5 text-gray-700 rounded"
-            [size]="(user()?.name?.length || 0) + 2"
-            type="text"
-            [value]="user()?.name"
-            [disabled]="!editingName()"
-            (input)="newName.set(nameInput.value)"
-          />
-          @if (!editingName()) {
-            <button type="button" class="cursor-pointer" (click)="editName()">
-              <span class="material-symbols-outlined">edit</span>
-            </button>
-          } @else {
-            <div class="flex flex-row gap-2">
-              <button type="button" (click)="saveName()"
-                class="flex cursor-pointer justify-center rounded-[5px] border-0 bg-[rgb(127,253,127)] p-2.5 text-[green]"
+          <label class="font-bold mb-0.5 mt-1.5 text-gray-800" for="name">Nome</label>
+
+          <div class="flex flex-row items-center gap-2 mb-5">
+            <input
+              #nameInput
+              class="border-1 w-full disabled:cursor-not-allowed border-gray-500 p-2.5 disabled:text-gray-700 text-black rounded"
+              type="text"
+              [value]="user()?.name"
+              [disabled]="!editingName()"
+              (input)="newName.set(nameInput.value)"
+              id="name"
+            />
+            @if (!editingName()) {
+              <button
+                type="button"
+                class="flex justify-center p-2.5 rounded-md cursor-pointer border-1 border-blue-600 bg-blue-200"
+                (click)="editName()"
               >
-                <span class="material-symbols-outlined">check</span>
+                <span class="material-symbols-outlined text-blue-600">edit</span>
+              </button>
+            } @else {
+              <div class="flex flex-row gap-2">
+                <button
+                  type="button"
+                  (click)="saveName()"
+                  class="flex cursor-pointer justify-center rounded-[5px] border-0 bg-[rgb(127,253,127)] p-2.5 text-[green]"
+                >
+                  <span class="material-symbols-outlined">check</span>
+                </button>
+
+                <button
+                  type="button"
+                  class="flex cursor-pointer justify-center rounded-[5px] border-0 bg-[rgb(255,188,188)] p-2.5 text-[red]"
+                  (click)="cancelEditName()"
+                >
+                  <span class="material-symbols-outlined">close_small</span>
+                </button>
+              </div>
+            }
+          </div>
+
+          <div class="flex flex-col">
+            <div class="flex flex-row gap-4 justify-between" id="elements">
+              <div id="email">
+                <div class="flex flex-row gap-2 items-center">
+                  <span class="material-symbols-outlined !text-3xl text-gray-800"> mail </span>
+                  <label for="email" class="text-xl font-bold text-gray-800">E-mail</label>
+                </div>
+                <p class="text-sm text-gray-700">{{ user()?.email }}</p>
+              </div>
+
+              <span class="w-px self-stretch bg-gray-300"></span>
+
+              <div class="flex flex-col justify-center" id="friendCode">
+                <div class="flex gap-2">
+                  <span class="material-symbols-outlined text-gray-800"> diversity_3 </span>
+                  <label class="text-gray-800 font-bold" for="friendCode">Código de amizade</label>
+                </div>
+
+                <p class="text-md ml-8 text-gray-700">{{ user()?.friendCode }}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="h-px my-4 w-full bg-gray-400"></div>
+
+        <section class="flex flex-col gap-2" id="security">
+          <div class="flex flex-row items-center gap-1.5">
+            <span class="material-symbols-outlined !text-2xl"> security </span>
+            <h1 class="font-bold text-lg underline">Segurança</h1>
+          </div>
+
+          <button
+            type="button"
+            (click)="changePasswordSection.set(true)"
+            class="flex gap-2 items-center text-md bg-blue-100 text-blue-800 w-50 py-3 px-2 rounded-md cursor-pointer hover:shadow-lg hover:scale-105 transition-all ease-in"
+          >
+            <span class="material-symbols-outlined !text-xl"> lock </span>
+            Alterar senha
+          </button>
+
+          @if (changePasswordSection()) {
+            <div class="flex flex-col mt-2" id="current-password">
+              <label class="font-bold mb-0.5 text-gray-800" for="currentPassword"
+                >Senha atual</label
+              >
+              <div class="relative flex flex-row w-64">
+                <input
+                  #currentPasswordInput
+                  class="border-1 border-gray-500 p-2 rounded-md w-64"
+                  [type]="passwordVisible() ? 'text' : 'password'"
+                  placeholder="Digite a sua senha atual"
+                  id="currentPassword"
+                  (input)="currentPassword.set(currentPasswordInput.value)"
+                />
+                <span
+                  class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined !text-[20px] cursor-pointer"
+                  (click)="passwordVisible.set(!passwordVisible())"
+                >
+                  {{ passwordVisible() ? 'visibility_off' : 'visibility' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="flex flex-col mt-2" id="new-password">
+              <label class="font-bold mb-0.5 text-gray-800" for="newPassword">Nova senha</label>
+              <div class="relative flex flex-row w-64">
+                <input
+                  #newPasswordInput
+                  class="border-1 border-gray-500 p-2 rounded-md w-64"
+                  [type]="newPasswordVisible() ? 'text' : 'password'"
+                  placeholder="Digite a sua nova senha"
+                  id="newPassword"
+                  (input)="newPassword.set(newPasswordInput.value); statusMessage.set('')"
+                />
+                <span
+                  class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined !text-[20px] cursor-pointer"
+                  (click)="newPasswordVisible.set(!newPasswordVisible())"
+                >
+                  {{ newPasswordVisible() ? 'visibility_off' : 'visibility' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="flex flex-col mt-2" id="confirm-password">
+              <label class="font-bold mb-0.5 text-gray-800" for="confirmPassword"
+                >Confirme a nova senha</label
+              >
+              <div class="relative flex flex-row w-64">
+                <input
+                  #confirmNewPasswordInput
+                  class="border-1 border-gray-500 p-2 rounded-md w-64"
+                  [type]="newPasswordVisible() ? 'text' : 'password'"
+                  placeholder="Confirme a sua nova senha"
+                  id="confirmPassword"
+                  (input)="
+                    confirmNewPassword.set(confirmNewPasswordInput.value); statusMessage.set('')
+                  "
+                />
+                <span
+                  class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined !text-[20px] cursor-pointer"
+                  (click)="newPasswordVisible.set(!newPasswordVisible())"
+                >
+                  {{ newPasswordVisible() ? 'visibility_off' : 'visibility' }}
+                </span>
+              </div>
+            </div>
+
+            @if (statusMessage() !== '') {
+              <p
+                class="w-70"
+                [class.text-green-600]="passwordChangeSuccess()"
+                [class.text-red-600]="!passwordChangeSuccess()"
+              >
+                {{ statusMessage() }}
+              </p>
+            }
+
+            <div id="new-password-buttons" class="flex flex-row gap-2 mt-2">
+              <button
+                type="button"
+                class="flex justify-center bg-green-300 text-green-800 text-center w-23 p-2 rounded cursor-pointer hover:shadow-lg hover:scale-105"
+                [disabled]="loading()"
+                (click)="verifyNewPasswordInputs()"
+              >
+                @if (loading()) {
+                  <span class="material-symbols-outlined animate-spin">progress_activity</span>
+                } @else {
+                  Confirmar
+                }
               </button>
 
-              <button type="button"
-                class="flex cursor-pointer justify-center rounded-[5px] border-0 bg-[rgb(255,188,188)] p-2.5 text-[red]" (click)="cancelEditName()"
+              <button
+                type="button"
+                class="bg-red-300 text-red-800 p-2 rounded cursor-pointer hover:shadow-lg hover:scale-105"
+                (click)="changePasswordSection.set(false)"
               >
-                <span class="material-symbols-outlined">close_small</span>
+                Cancelar
               </button>
             </div>
           }
-        </div>
+        </section>
       </form>
     </app-modal>
   }

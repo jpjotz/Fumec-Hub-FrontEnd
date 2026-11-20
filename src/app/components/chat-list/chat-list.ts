@@ -59,9 +59,49 @@ export class ChatList {
   editingName = signal(false);
   newName = signal('');
 
+  changePasswordSection = signal(false);
+
   openChatSelected = output<ChatInterface>();
 
   friendRequestCount = signal(0);
+
+  passwordVisible = signal(false);
+  newPasswordVisible = signal(false);
+
+  currentPassword = signal('');
+  newPassword = signal('');
+  confirmNewPassword = signal('');
+  statusMessage = signal('');
+  passwordChangeSuccess = signal(false);
+
+  loading = signal(false);
+
+  verifyNewPasswordInputs() {
+    if (this.newPassword() !== this.confirmNewPassword()) {
+      this.statusMessage.set('As senhas não coincidem');
+      return;
+    }
+
+    this.loading.set(true);
+
+    this.authService.changePassword(this.currentPassword(), this.newPassword()).subscribe({
+      next: (data: any) => {
+        this.statusMessage.set(data.message + " Efetue novamente o login.");
+        this.passwordChangeSuccess.set(true);
+        this.loading.set(false);
+        this.authService.logout();
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000);
+      },
+
+      error: (err) => {
+        this.passwordChangeSuccess.set(false);
+        this.statusMessage.set(err.error.message);
+        this.loading.set(false);
+      }
+    })
+  }
 
   editName() {
     this.newName.set(this.user()?.name || '');
@@ -76,16 +116,15 @@ export class ChatList {
   saveName() {
     this.authService.editProfile(this.newName()).subscribe({
       next: () => {
-
         this.authService.user.update((user) => ({
           ...user,
           name: this.newName()
         }));
-
         this.editingName.set(false)
       }
     });
   }
+
 
   openChat(chat: ChatInterface) {
     this.openChatSelected.emit(chat);
