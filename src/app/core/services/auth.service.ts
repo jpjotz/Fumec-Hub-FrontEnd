@@ -35,4 +35,20 @@ export class AuthService {
   logout() {
     return this.http.post(this.apiUrl + 'auth/logout', {}, { withCredentials: true });
   }
+
+  editProfile(name: string) {
+    return this.http.patch(this.apiUrl + 'users/me', { name }, {withCredentials: true} );
+  }
+
+  changePassword(currentPassword: string, newPassword: string) {
+    return this.http.patch(this.apiUrl + 'users/me/password', {currentPassword, newPassword}, {withCredentials: true});
+  }
+
+  deleteAccount(password: string) {
+    return this.http.delete(this.apiUrl + 'users/me',
+      {
+        body: { password },
+        withCredentials: true
+      });
+  }
 }
