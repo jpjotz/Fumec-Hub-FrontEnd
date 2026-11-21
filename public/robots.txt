@@ -1,6 +1,4 @@
 User-agent: *
-Allow: /login
-Allow: /register
-Disallow: /
+Allow: /
 
 Sitemap: https://fumechub.vercel.app/sitemap.xml
