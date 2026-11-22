@@ -10,29 +10,40 @@
 
     <form
       class="flex flex-col items-center justify-center gap-[10px] p-6"
-      (submit)="$event.preventDefault(); login()"
+      [formGroup]="loginForm"
+      (ngSubmit)="login()"
     >
       <label class="text-md font-bold self-start mb-[-5px]" for="email">E-mail</label>
       <input
+        id="email"
         class="box-border w-[250px] rounded-[10px] border border-gray-500 py-3.5 px-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
-        [(ngModel)]="email"
-        name="email"
+        formControlName="email"
         type="email"
         placeholder="Digite seu email"
       />
 
-      <div class="w-[250px] mt-2 mb-5">
-        <label class="text-md font-bold self-start mb-[-5px]" for="senha">Senha</label>
+      @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+        <p class="text-red-600 text-sm self-start">
+          @if (loginForm.get('email')?.hasError('required')) {
+            Informe seu e-mail.
+          } @else if (loginForm.get('email')?.hasError('email')) {
+            Informe um e-mail válido.
+          }
+        </p>
+      }
+
+      <div class="w-[250px] mt-2 mb-3">
+        <label class="text-md font-bold self-start mb-[-5px]" for="password">Senha</label>
         <div class="relative">
           <input
             class="box-border w-full rounded-[10px] border border-gray-500 py-3.5 px-5 pr-[55px] focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
-            [(ngModel)]="password"
-            name="password"
+            formControlName="password"
             [type]="showPassword() ? 'text' : 'password'"
             placeholder="Digite sua senha"
+            id="password"
           />
 
-          @if (password()) {
+          @if (loginForm.get('password')?.value) {
             <button
               class="absolute right-[10px] top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center border-0 bg-transparent p-[5px]"
               type="button"
@@ -44,6 +55,12 @@
             </button>
           }
         </div>
+
+        @if (
+          loginForm.get('password')?.touched && loginForm.get('password')?.hasError('required')
+        ) {
+          <p class="text-red-600 text-sm self-start">Informe sua senha.</p>
+        }
       </div>
 
       <button

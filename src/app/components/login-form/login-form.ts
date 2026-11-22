@@ -1,10 +1,10 @@
 import { Component, signal, output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule],
   selector: 'app-login-form',
   styleUrl: './login-form.css',
   templateUrl: './login-form.html',
@@ -15,8 +15,11 @@ export class LoginForm {
     private router: Router,
   ) {}
 
-  email = signal('');
-  password = signal('');
+  loginForm = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required]),
+  });
+
   message = signal('');
   loading = signal(false);
 
@@ -25,19 +28,20 @@ export class LoginForm {
   goToRegister = output<void>();
 
   login() {
-
-    if(!this.email() || !this.password()) {
-      this.message.set('Preencha todos os campos.');
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
       return;
     }
 
-    this.loading.set(true)
-    this.authService.login(this.email(), this.password()).subscribe({
+    const { email, password } = this.loginForm.getRawValue();
+
+    this.loading.set(true);
+
+    this.authService.login(email!, password!).subscribe({
       next: (data) => {
         this.message.set('Login efetuado com sucesso!');
 
-        this.email.set('');
-        this.password.set('');
+        this.loginForm.reset();
         this.loading.set(false);
 
         this.router.navigate(['/'], { replaceUrl: true });
