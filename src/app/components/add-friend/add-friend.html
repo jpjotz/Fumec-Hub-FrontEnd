@@ -1,15 +1,15 @@
-<div class="flex flex-wrap items-center gap-2.5">
+<form (ngSubmit)="pesquisar()" class="flex flex-wrap items-center gap-2.5">
   <input
     class="mr-0 rounded-[10px] border border-[#808080] p-[15px] outline-none focus:border-(--primary-color)"
-    [(ngModel)]="search"
+    [formControl]="search"
     type="text"
     placeholder="Digite o código de amizade"
-    (keydown.enter)="pesquisar()"
   />
 
   <button
-    class="cursor-pointer rounded-[10px] border-0 bg-(--primary-color) p-[15px] text-white hover:scale-103 hover:shadow-lg transition-all ease-in"
-    (click)="pesquisar()"
+    type="submit"
+    [disabled]="loading() || search.invalid"
+    class="cursor-pointer rounded-[10px] border-0 bg-(--primary-color) p-[15px] text-white hover:scale-103 hover:shadow-lg transition-all ease-in disabled:cursor-not-allowed disabled:opacity-50"
   >
     @if (loading()) {
       <span class="material-symbols-outlined animate-[spin_1s_linear_infinite] text-[20px]">
@@ -19,7 +19,11 @@
       Adicionar
     }
   </button>
-</div>
+</form>
+
+@if (search.touched && search.hasError('required')) {
+  <p class="text-red-600 text-sm">Informe o código de amizade.</p>
+}
 
 @if (message()) {
   @if (message().includes('enviada')) {
