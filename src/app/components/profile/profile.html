@@ -1,0 +1,325 @@
+
+<app-modal
+  titulo="Meu Perfil"
+  subtitulo="Gerencie suas informações pessoais e configurações"
+  (close)="close.emit(); cancelEditName()"
+>
+  <div class="flex flex-col">
+    <section id="personal-info" class="flex flex-col mt-[-5px]">
+      <div class="flex flex-row items-center gap-1.5">
+        <span class="material-symbols-outlined !text-2xl">person</span>
+        <h1 class="font-bold text-lg">Informações Pessoais</h1>
+      </div>
+
+      <label class="font-bold mb-0.5 mt-1.5 text-gray-800" for="name">Nome</label>
+
+      <div class="flex flex-row items-center gap-2 mb-2">
+        <input
+          class="border-1 w-full disabled:cursor-not-allowed border-gray-500 p-2.5 disabled:text-gray-700 text-black rounded"
+          type="text"
+          [formControl]="nameForm"
+          id="name"
+        />
+
+        @if (!editingName()) {
+          <button
+            type="button"
+            class="flex justify-center p-2.5 rounded-md cursor-pointer border-1 border-blue-600 bg-blue-200"
+            (click)="editName()"
+          >
+            <span class="material-symbols-outlined text-blue-600">edit</span>
+          </button>
+        } @else {
+          <div class="flex flex-row gap-2">
+            <button
+              type="button"
+              (click)="saveName()"
+              class="flex cursor-pointer justify-center rounded-[5px] border-0 bg-[rgb(127,253,127)] p-2.5 text-[green]"
+            >
+              <span class="material-symbols-outlined">check</span>
+            </button>
+
+            <button
+              type="button"
+              class="flex cursor-pointer justify-center rounded-[5px] border-0 bg-[rgb(255,188,188)] p-2.5 text-[red]"
+              (click)="cancelEditName()"
+            >
+              <span class="material-symbols-outlined">close_small</span>
+            </button>
+          </div>
+        }
+      </div>
+
+      @if (nameForm.touched && nameForm.hasError('required')) {
+        <p class="text-sm text-red-600">O nome é obrigatório.</p>
+      }
+
+      <div class="flex flex-col">
+        <div class="flex flex-row gap-4 justify-between" id="elements">
+          <div id="email">
+            <div class="flex flex-row gap-2 items-center">
+              <span class="material-symbols-outlined !text-3xl text-gray-800">mail</span>
+              <label for="email" class="text-xl font-bold text-gray-800">E-mail</label>
+            </div>
+            <p class="text-sm text-gray-700">{{ user()?.email }}</p>
+          </div>
+
+          <span class="w-px self-stretch bg-gray-300"></span>
+
+          <div class="flex flex-col justify-center" id="friendCode">
+            <div class="flex gap-2">
+              <span class="material-symbols-outlined text-gray-800">diversity_3</span>
+              <label class="text-gray-800 font-bold" for="friendCode">Código de amizade</label>
+            </div>
+            <p class="text-md ml-8 text-gray-700">{{ user()?.friendCode }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="h-px my-4 w-full bg-gray-400"></div>
+
+    <section class="flex flex-col gap-2" id="security">
+      <div class="flex flex-row min-w-0 gap-2 justify-between bg-blue-200 md:p-4 p-2 rounded-md">
+        <div class="flex min-w-0 flex-1 flex-row items-center gap-1">
+          <span class="material-symbols-outlined !text-2xl bg-blue-700 rounded-xl p-1.5 text-white">
+            lock
+          </span>
+          <h1 class="font-bold text-lg">Segurança</h1>
+        </div>
+
+        <button
+          type="button"
+          (click)="changePasswordSection.set(!changePasswordSection())"
+          class="flex shrink-0 whitespace-nowrap w-45 scale-85 md:scale-100 items-center justify-between rounded-md bg-blue-700 px-3 py-3 text-white cursor-pointer hover:bg-blue-800 transition-colors"
+        >
+          <span class="flex items-center gap-2">
+            <span class="material-symbols-outlined">lock</span>
+            Alterar senha
+          </span>
+          <span class="material-symbols-outlined">
+            {{ changePasswordSection() ? 'expand_less' : 'expand_more' }}
+          </span>
+        </button>
+      </div>
+
+      @if (changePasswordSection()) {
+        <div class="flex flex-col mt-2" id="current-password">
+          <label class="font-bold mb-0.5 text-gray-800" for="currentPassword">Senha atual</label>
+
+          <div class="relative flex flex-row w-full">
+            <input
+              class="border-1 border-gray-500 p-2 rounded-md w-full"
+              [type]="passwordVisible() ? 'text' : 'password'"
+              placeholder="Digite a sua senha atual"
+              id="currentPassword"
+              [formControl]="passwordForm.controls.currentPassword"
+            />
+            <span
+              class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined !text-[20px] cursor-pointer"
+              (click)="passwordVisible.set(!passwordVisible())"
+            >
+              {{ passwordVisible() ? 'visibility_off' : 'visibility' }}
+            </span>
+          </div>
+
+          @if (
+            passwordForm.controls.currentPassword.touched &&
+            passwordForm.controls.currentPassword.hasError('required')
+          ) {
+            <p class="text-sm text-red-600">Informe sua senha atual.</p>
+          }
+        </div>
+
+        <div class="flex flex-col mt-2" id="new-password">
+          <label class="font-bold mb-0.5 text-gray-800" for="newPassword">Nova senha</label>
+
+          <div class="relative flex flex-row w-full">
+            <input
+              class="border-1 border-gray-500 p-2 rounded-md w-full"
+              [type]="newPasswordVisible() ? 'text' : 'password'"
+              placeholder="Digite a sua nova senha"
+              id="newPassword"
+              [formControl]="passwordForm.controls.newPassword"
+            />
+            <span
+              class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined !text-[20px] cursor-pointer"
+              (click)="newPasswordVisible.set(!newPasswordVisible())"
+            >
+              {{ newPasswordVisible() ? 'visibility_off' : 'visibility' }}
+            </span>
+          </div>
+
+          @if (
+            passwordForm.controls.newPassword.touched &&
+            passwordForm.controls.newPassword.hasError('required')
+          ) {
+            <p class="text-sm text-red-600">Informe a nova senha.</p>
+          }
+        </div>
+
+        <div class="flex flex-col mt-2" id="confirm-password">
+          <label class="font-bold mb-0.5 text-gray-800" for="confirmPassword">
+            Confirme a nova senha
+          </label>
+
+          <div class="relative flex flex-row w-full">
+            <input
+              class="border-1 border-gray-500 p-2 rounded-md w-full"
+              [type]="newPasswordVisible() ? 'text' : 'password'"
+              placeholder="Confirme a sua nova senha"
+              id="confirmPassword"
+              [formControl]="passwordForm.controls.confirmNewPassword"
+            />
+            <span
+              class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined !text-[20px] cursor-pointer"
+              (click)="newPasswordVisible.set(!newPasswordVisible())"
+            >
+              {{ newPasswordVisible() ? 'visibility_off' : 'visibility' }}
+            </span>
+          </div>
+
+          @if (
+            passwordForm.controls.confirmNewPassword.touched &&
+            passwordForm.controls.confirmNewPassword.hasError('required')
+          ) {
+            <p class="text-sm text-red-600">Confirme sua nova senha.</p>
+          }
+
+          @if (
+            passwordForm.hasError('passwordMismatch') &&
+            passwordForm.controls.confirmNewPassword.touched &&
+            passwordForm.controls.confirmNewPassword.valid
+          ) {
+            <p class="text-sm text-red-600">As senhas não coincidem.</p>
+          }
+        </div>
+
+        @if (statusMessage() !== '') {
+          <p
+            class="w-70"
+            [class.text-green-600]="passwordChangeSuccess()"
+            [class.text-red-600]="!passwordChangeSuccess()"
+          >
+            {{ statusMessage() }}
+          </p>
+        }
+
+        <div id="new-password-buttons" class="flex flex-row gap-2 mt-2 justify-end">
+          <button
+            type="button"
+            class="border-1 border-gray-600 bg-transparent text-gray-600 py-2 px-5 rounded-xl cursor-pointer hover:shadow-lg hover:scale-105 transition-all ease-in"
+            (click)="passwordForm.reset(); statusMessage.set(''); changePasswordSection.set(false)"
+          >
+            Cancelar
+          </button>
+
+          <button
+            type="button"
+            class="flex justify-center bg-blue-700 text-white text-center py-2 px-5 rounded-xl cursor-pointer hover:shadow-lg hover:scale-105 transition-all ease-in disabled:opacity-50 disabled:cursor-not-allowed"
+            [disabled]="
+              loading() ||
+              passwordForm.controls.currentPassword.invalid ||
+              passwordForm.controls.newPassword.invalid ||
+              passwordForm.controls.confirmNewPassword.invalid
+            "
+            (click)="verifyNewPasswordInputs()"
+          >
+            @if (loading()) {
+              <span class="material-symbols-outlined animate-spin">progress_activity</span>
+            } @else {
+              Salvar alterações
+            }
+          </button>
+        </div>
+      }
+    </section>
+
+    <div class="h-px my-4 w-full bg-gray-400"></div>
+
+    <section class="flex min-w-0 flex-col gap-2 bg-red-100 rounded-xl" id="account-danger">
+      <div
+        class="flex flex-row min-w-0 items-center justify-between gap-1 rounded-lg bg-red-100 px-1 py-4 md:gap-5 md:px-2 md:py-5"
+      >
+        <div class="flex min-w-0 flex-1 flex-row items-center gap-1">
+          <span class="material-symbols-outlined !text-4xl text-red-700 px-1.5 rounded-xl">
+            warning
+          </span>
+          <div id="delete-text">
+            <h1 class="font-bold text-lg text-red-700 whitespace-nowrap">Zona de Perigo</h1>
+            <p class="text-xs text-gray-700">Esta ação não pode ser desfeita.</p>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          (click)="deleteAccountInput.set(!deleteAccountInput())"
+          class="flex whitespace-nowrap justify-center items-center gap-2 border-1 border-red-700 text-red-700 bg-transparent p-2 rounded-lg cursor-pointer hover:shadow-lg hover:scale-103 transition-all ease-in"
+        >
+          <span class="material-symbols-outlined">delete</span>
+          Deletar conta
+        </button>
+      </div>
+
+      @if (deleteAccountInput()) {
+        <div class="h-px mb-2.5 w-full self-center bg-gray-300"></div>
+
+        <div id="delete-inputs" class="flex flex-col items-end gap-2">
+          <div id="input" class="relative">
+            <input
+              class="p-2 border-1 border-red-400 placeholder:text-red-400 rounded-lg w-80 mr-2"
+              [type]="seePassword() ? 'text' : 'password'"
+              placeholder="Digite sua senha para deletar a conta..."
+              [formControl]="deleteAccountForm"
+            />
+
+            @if (deleteAccountForm.touched && deleteAccountForm.hasError('required')) {
+              <p class="text-sm text-red-600">Informe sua senha para excluir a conta.</p>
+            }
+
+            <span
+              class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined !text-[20px] cursor-pointer"
+              (click)="seePassword.set(!seePassword())"
+            >
+              {{ seePassword() ? 'visibility_off' : 'visibility' }}
+            </span>
+          </div>
+
+          @if (deleteStatusMsg() !== '') {
+            <p
+              [class.text-red-500]="!deleteStatus()"
+              [class.text-green-500]="deleteStatus()"
+              class="mr-2"
+            >
+              {{ deleteStatusMsg() }}
+            </p>
+          }
+
+          <div id="delete-buttons" class="flex mr-2 gap-2 p-2">
+            <button
+              type="button"
+              (click)="deleteAccountForm.reset(); deleteAccountInput.set(false); deleteStatusMsg.set('')"
+              [disabled]="deleteLoading()"
+              class="border-1 border-gray-600 bg-transparent text-gray-600 py-2 px-5 rounded-xl cursor-pointer hover:shadow-lg hover:scale-105 transition-all ease-in"
+            >
+              Cancelar
+            </button>
+
+            <button
+              type="button"
+              (click)="deleteAccount()"
+              [disabled]="deleteLoading() || deleteAccountForm.invalid"
+              class="flex justify-center border-1 bg-red-700 text-white py-2 px-5 cursor-pointer rounded-xl hover:shadow-lg hover:scale-105 transition-all ease-in"
+            >
+              @if (deleteLoading()) {
+                <span class="material-symbols-outlined animate-spin">progress_activity</span>
+              } @else {
+                Deletar
+              }
+            </button>
+          </div>
+        </div>
+      }
+    </section>
+  </div>
+</app-modal>

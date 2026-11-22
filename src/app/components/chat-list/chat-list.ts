@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AddFriend } from '../add-friend/add-friend';
 import { FriendRequests } from '../friend-requests/friend-requests';
 import { Modal } from '../shared/modal/modal';
+import { Profile } from '../profile/profile';
 import { AuthService } from '../../core/services/auth.service';
 import { WebSocketService } from '../../core/services/websocket.service';
 import { FriendshipService } from '../../core/services/friendship.service';
@@ -13,7 +14,7 @@ import { ChatInterface } from '../../models/ChatInterface';
 import { UserInterface } from '../../models/UserInterface';
 
 @Component({
-  imports: [ChatItem, AddFriend, FriendRequests, Modal],
+  imports: [ChatItem, AddFriend, FriendRequests, Modal, Profile],
   selector: 'app-chat-list',
   styleUrl: './chat-list.css',
   templateUrl: './chat-list.html',
@@ -70,101 +71,9 @@ export class ChatList {
   showFriends = signal(false);
   showProfile = signal(false);
 
-  editingName = signal(false);
-  newName = signal('');
-
-  changePasswordSection = signal(false);
-
   openChatSelected = output<ChatInterface>();
 
   friendRequestCount = signal(0);
-
-  passwordVisible = signal(false);
-  newPasswordVisible = signal(false);
-
-  currentPassword = signal('');
-  newPassword = signal('');
-  confirmNewPassword = signal('');
-  statusMessage = signal('');
-  passwordChangeSuccess = signal(false);
-
-  loading = signal(false);
-
-  deleteAccountInput = signal(false);
-  deleteAccountPassword = signal('');
-  seePassword = signal(false);
-  deleteStatusMsg = signal('');
-  deleteStatus = signal(false);
-  deleteLoading = signal(false);
-
-  verifyNewPasswordInputs() {
-    if (this.newPassword() !== this.confirmNewPassword()) {
-      this.statusMessage.set('As senhas não coincidem');
-      return;
-    }
-
-    this.loading.set(true);
-
-    this.authService.changePassword(this.currentPassword(), this.newPassword()).subscribe({
-      next: (data: any) => {
-        this.statusMessage.set(data.message + ' Efetue novamente o login.');
-        this.passwordChangeSuccess.set(true);
-        this.loading.set(false);
-        this.authService.logout();
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 2000);
-      },
-
-      error: (err) => {
-        this.passwordChangeSuccess.set(false);
-        this.statusMessage.set(err.error.message);
-        this.loading.set(false);
-      },
-    });
-  }
-
-  editName() {
-    this.newName.set(this.user()?.name || '');
-    this.editingName.set(true);
-  }
-
-  cancelEditName() {
-    this.newName.set('');
-    this.editingName.set(false);
-  }
-
-  saveName() {
-    this.authService.editProfile(this.newName()).subscribe({
-      next: () => {
-        this.authService.user.update((user) => ({
-          ...user,
-          name: this.newName(),
-        }));
-        this.editingName.set(false);
-      },
-    });
-  }
-
-  deleteAccount() {
-    this.deleteLoading.set(true);
-
-    this.authService.deleteAccount(this.deleteAccountPassword()).subscribe({
-      next: () => {
-        this.deleteStatusMsg.set('Conta deletada com sucesso!');
-        this.deleteLoading.set(false);
-        this.deleteStatus.set(true);
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 2000);
-      },
-
-      error: (err) => {
-        this.deleteStatusMsg.set(err.error.message);
-        this.deleteLoading.set(false);
-      },
-    });
-  }
 
   openChat(chat: ChatInterface) {
     this.openChatSelected.emit(chat);
