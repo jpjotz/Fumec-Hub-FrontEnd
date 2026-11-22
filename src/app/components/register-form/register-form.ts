@@ -1,11 +1,11 @@
 import { Component, signal, output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { CourseService } from '../../core/services/course.service';
 
 @Component({
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule],
   selector: 'app-register-form',
   styleUrl: './register-form.css',
   templateUrl: './register-form.html',
@@ -17,14 +17,21 @@ export class RegisterForm {
     private router: Router,
   ) {}
 
-  name = signal('');
-  email = signal('');
-  password = signal('');
-  confirmPassword = signal('');
+  registerForm = new FormGroup({
+    name: new FormControl('', [Validators.required]),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email,
+      Validators.pattern(/^[^\s@]+@fumec\.edu\.br$/i),
+    ]),
+    courseId: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
+    confirmPassword: new FormControl('', [Validators.required]),
+  });
+
   message = signal('');
 
   courses = signal<any[]>([]);
-  courseId = signal('');
 
   showPassword = signal(false);
   loading = signal(false);
@@ -44,46 +51,34 @@ export class RegisterForm {
   }
 
   register() {
-    if (!this.password()) {
-      this.message.set('Informe sua senha');
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
       return;
     }
 
-    if (this.password() !== this.confirmPassword()) {
-      this.message.set('As senhas não coincidem');
-      return;
-    }
+    const { name, email, password, confirmPassword, courseId } = this.registerForm.getRawValue();
 
-    if (!this.courseId()) {
-      this.message.set('Selecione seu curso');
+    if (password !== confirmPassword) {
+      this.registerForm.get('confirmPassword')?.setErrors({ mismatch: true });
       return;
-    }
-
-    if (this.email()) {
-      if (!this.email().endsWith('@fumec.edu.br')) {
-        this.message.set('Use um e-mail institucional @fumec.edu.br');
-        return;
-      }
     }
 
     this.loading.set(true);
 
-    this.authService
-      .register(this.name(), this.email(), this.password(), this.courseId())
-      .subscribe({
-        next: (data) => {
-          this.message.set('Usuário criado com sucesso!');
-          this.loading.set(false);
+    this.authService.register(name!, email!, password!, courseId!).subscribe({
+      next: (data) => {
+        this.message.set('Usuário criado com sucesso!');
+        this.loading.set(false);
 
-          setTimeout(() => {
-            this.router.navigate(['/']);
-          }, 1000);
-        },
+        setTimeout(() => {
+          this.router.navigate(['/']);
+        }, 1000);
+      },
 
-        error: (error) => {
-          this.message.set(error.error.message || error.error);
-          this.loading.set(false);
-        },
-      });
+      error: (error) => {
+        this.message.set(error.error.message || error.error);
+        this.loading.set(false);
+      },
+    });
   }
 }

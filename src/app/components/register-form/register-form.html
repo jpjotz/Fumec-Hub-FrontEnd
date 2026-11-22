@@ -14,33 +14,49 @@
 
     <form
       class="flex flex-col items-center justify-center gap-[10px] p-6"
-      (submit)="$event.preventDefault(); register()"
+      [formGroup]="registerForm"
+      (ngSubmit)="register()"
     >
-      <label class="text-md font-bold self-start mb-[-5px]" for="nome">Nome</label>
+      <label class="text-md font-bold self-start mb-[-5px]" for="name">Nome</label>
       <input
         class="box-border w-[250px] rounded-[10px] border border-[#808080] py-3.5 px-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
-        [(ngModel)]="name"
-        name="name"
+        formControlName="name"
+        id="name"
         type="text"
         placeholder="Digite seu nome"
       />
 
+      @if (registerForm.get('name')?.touched && registerForm.get('name')?.hasError('required')) {
+        <p class="text-red-600 text-sm self-start">Informe seu nome.</p>
+      }
+
       <label class="text-md font-bold self-start mb-[-5px]" for="email">E-mail</label>
       <input
         class="box-border w-[250px] rounded-[10px] border border-[#808080] py-3.5 px-5 focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
-        [(ngModel)]="email"
-        name="email"
+        formControlName="email"
+        id="email"
         type="email"
         placeholder="Digite seu email"
       />
 
+      @if (registerForm.get('email')?.touched && registerForm.get('email')?.invalid) {
+        <p class="text-red-600 text-sm self-start">
+          @if (registerForm.get('email')?.hasError('required')) {
+            Informe seu e-mail.
+          } @else if (registerForm.get('email')?.hasError('email')) {
+            Informe um e-mail válido.
+          } @else if (registerForm.get('email')?.hasError('pattern')) {
+            Use seu e-mail institucional @fumec.edu.br.
+          }
+        </p>
+      }
+
       <label class="text-md font-bold self-start mb-[-5px]" for="curso">Curso</label>
       <select
         class="box-border w-[250px] rounded-[10px] border border-[#808080] py-3.5 px-5 bg-white"
-        [class.text-[#808080]]="!courseId()"
-        [ngModel]="courseId()"
-        (ngModelChange)="courseId.set($event)"
-        name="courseId"
+        [class.text-[#808080]]="!registerForm.get('courseId')?.value"
+        formControlName="courseId"
+        id="courseId"
       >
         <option value="">Selecione o seu curso</option>
 
@@ -51,17 +67,23 @@
         }
       </select>
 
+      @if (
+        registerForm.get('courseId')?.touched && registerForm.get('courseId')?.hasError('required')
+      ) {
+        <p class="text-red-600 text-sm self-start">Selecione seu curso.</p>
+      }
+
       <label class="text-md font-bold self-start mb-[-5px]" for="senha">Senha</label>
       <div class="relative w-[250px]">
         <input
           class="box-border w-full rounded-[10px] border border-[#808080] py-3.5 px-5 pr-[55px] focus:border-(--primary-color) focus:outline-none focus:placeholder:text-(--primary-color) bg-white"
-          [(ngModel)]="password"
-          name="password"
+          formControlName="password"
+          id="password"
           [type]="showPassword() ? 'text' : 'password'"
           placeholder="Digite sua senha"
         />
 
-        @if (password()) {
+        @if (registerForm.get('password')?.value) {
           <button
             class="absolute right-[10px] top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center border-0 bg-transparent p-[5px]"
             type="button"
@@ -73,19 +95,25 @@
           </button>
         }
       </div>
+
+      @if (
+        registerForm.get('password')?.touched && registerForm.get('password')?.hasError('required')
+      ) {
+        <p class="text-red-600 text-sm self-start">Informe sua senha.</p>
+      }
 
       <label class="text-md font-bold self-start" for="confirmPassword"> Confirmar senha </label>
 
       <div class="relative w-[250px]">
         <input
           class="box-border w-full rounded-[10px] border border-[#808080] bg-white px-5 py-3.5 pr-[55px] focus:border-(--primary-color) focus:outline-none"
-          [(ngModel)]="confirmPassword"
-          name="confirmPassword"
+          formControlName="confirmPassword"
+          id="confirmPassword"
           [type]="showPassword() ? 'text' : 'password'"
           placeholder="Confirme sua senha"
         />
 
-        @if (confirmPassword()) {
+        @if (registerForm.get('confirmPassword')?.value) {
           <button
             class="absolute right-[10px] top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center border-0 bg-transparent p-[5px]"
             type="button"
@@ -97,6 +125,14 @@
           </button>
         }
       </div>
+
+      @if (registerForm.get('confirmPassword')?.touched) {
+        @if (registerForm.get('confirmPassword')?.hasError('required')) {
+          <p class="text-red-600 text-sm self-start">Confirme sua senha.</p>
+        } @else if (registerForm.get('confirmPassword')?.hasError('mismatch')) {
+          <p class="text-red-600 text-sm self-start">As senhas não coincidem.</p>
+        }
+      }
 
       <button
         class="w-[250px] rounded-[10px] border-0 bg-(--primary-color) py-3.5 px-5 text-[15px] font-bold text-white enabled:lg:cursor-pointer enabled:lg:transition enabled:lg:duration-100 enabled:lg:hover:scale-[1.02] enabled:lg:hover:shadow-[0_5px_15px_rgba(0,0,0,0.35)] disabled:cursor-not-allowed disabled:bg-[#999]"
