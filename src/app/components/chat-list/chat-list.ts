@@ -90,7 +90,6 @@ export class ChatList {
 
     this.chatService.getChats().subscribe({
       next: (data: any) => {
-        console.log('CHATS:', data.chats);
         this.chats.set(data.chats);
         this.filteredChats.set(data.chats);
       },

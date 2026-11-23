@@ -31,7 +31,6 @@ export class WebSocketService {
       this.socket = new WebSocket(`wss://fumec-hub-backend.onrender.com?userId=${userId}`);
 
       this.socket.onopen = () => {
-        console.log('WebSocket conectado!');
         if (chatId) {
           this.joinChat(chatId);
         }
